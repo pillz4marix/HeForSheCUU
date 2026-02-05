@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Próximos Eventos | HeForShe</title>
+
+  <link rel="stylesheet" href="eventos.css">
+  <link rel="icon" href="img/HeForShe_Logo_Badge_Use_On_White.png" type="image/png">
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <nav>
+    <div class="logo-container">
+      <img src="img/heforshe-logo-united-nations-headquarters-gender-equality-un-women-emma-watson.jpg" alt="Logo HeForShe" class="logo-img">
+      <span class="logo-text">HeForShe</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#Nosotros">Sobre nosotros</a></li>
+      <li><a href="index.html#Instagram">Instagram</a></li>
+      <li><a href="eventos.html">Eventos</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ================= EVENTOS ================= -->
+<section id="Eventos">
+  <h2>Próximos Eventos</h2>
+
+  <!-- EVENTO 1 -->
+  <div class="evento-card">
+    <div class="evento-fecha">
+      <span class="dia">09</span>
+      <span class="mes">Febrero</span>
+    </div>
+
+    <div class="evento-contenido">
+      <div class="evento-img">
+      <img src="img/evento-heforshe-14-feb.png" alt="Evento HeForShe">
+      </div>
+      <h3>Del Ideal al Vínculo Real</h3>
+      <p class="evento-sub">
+        Mitos del amor y cómo construir relaciones sanas.
+      </p>
+
+      <button class="evento-btn toggle-btn">Ver más información</button>
+
+      <div class="evento-info">
+        <p><strong>📅 Fecha:</strong> Lunes, 09 de febrero</p>
+        <p><strong>⏰ Hora:</strong> 5:30 p.m.</p>
+        <p><strong>📍 Lugar:</strong> SUM</p>
+
+        <p class="evento-desc">
+          
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTO 2 -->
+  <div class="evento-card">
+    <div class="evento-fecha">
+      <span class="dia">10</span>
+      <span class="mes">Febrero</span>
+    </div>
+
+    <div class="evento-contenido">
+      <div class="evento-img">
+      <img src="img/Cineforum.png" alt="Evento HeForShe">
+      </div>
+      <h3>Cineforum</h3>
+      <p class="evento-sub">
+        
+      </p>
+
+      <button class="evento-btn toggle-btn">Ver más información</button>
+
+      <div class="evento-info">
+        <p><strong>📅 Fecha:</strong> Martes, 10 de febrero</p>
+        <p><strong>⏰ Hora:</strong> 2:00 p.m. a 5:00 p.m.</p>
+        <p><strong>📍 Lugar:</strong> Por confirmar</p>
+
+        <p class="evento-desc">
+          
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTO 3 -->
+  <div class="evento-card">
+    <div class="evento-fecha">
+      <span class="dia">11</span>
+      <span class="mes">Febrero</span>
+    </div>
+
+    <div class="evento-contenido">
+      <div class="evento-img">
+      <img src="img/Mural_de_pertenencia.png" alt="Evento HeForShe">
+      </div>
+      <h3>Mural de pertenencia</h3>
+      <p class="evento-sub">
+        
+      </p>
+
+      <button class="evento-btn toggle-btn">Ver más información</button>
+
+      <div class="evento-info">
+        <p><strong>📅 Fecha:</strong> Miércoles, 11 de febrero</p>
+        <p><strong>⏰ Hora:</strong> Por confirmar</p>
+        <p><strong>📍 Lugar:</strong> Por confirmar</p>
+
+        <p class="evento-desc">
+          
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTO 4 -->
+  <div class="evento-card">
+    <div class="evento-fecha">
+      <span class="dia">12</span>
+      <span class="mes">Febrero</span>
+    </div>
+
+    <div class="evento-contenido">
+      <div class="evento-img">
+      <img src="img/Platica_con_proposito.png" alt="Evento HeForShe">
+      </div>
+      <h3>Diálogo con propósito</h3>
+      <p class="evento-sub">
+        
+      </p>
+
+      <button class="evento-btn toggle-btn">Ver más información</button>
+
+      <div class="evento-info">
+        <p><strong>📅 Fecha:</strong> Jueves, 12 de febrero</p>
+        <p><strong>⏰ Hora:</strong> Por confirmar</p>
+        <p><strong>📍 Lugar:</strong> Por confirmar</p>
+
+        <p class="evento-desc">
+          
+        </p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <p>Gracias por tu interés. 🤍</p>
+  <p>Síguenos en nuestras redes y participa en los eventos</p>
+</footer>
+
+<!-- ================= JS ================= -->
+<script>
+  const botones = document.querySelectorAll(".toggle-btn");
+
+  botones.forEach(boton => {
+    boton.addEventListener("click", () => {
+      const info = boton.nextElementSibling;
+
+      info.classList.toggle("active");
+
+      if (info.classList.contains("active")) {
+        boton.textContent = "Ver menos información";
+      } else {
+        boton.textContent = "Ver más información";
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
