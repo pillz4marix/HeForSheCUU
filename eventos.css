@@ -320,33 +320,59 @@ footer {
   padding: 2rem;
 }
 
-/* ================= NAV RESPONSIVE ================= */
+/* ================= EVENTOS RESPONSIVE ================= */
 @media (max-width: 768px) {
 
-  nav {
+  .evento-card {
     flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
+    border-radius: 22px;
   }
 
-  .logo-container {
+  /* fecha arriba */
+  .evento-fecha {
+    width: 100%;
+    min-width: unset;
+    padding: 1.5rem 1rem;
+    flex-direction: row;
     justify-content: center;
+    gap: 0.8rem;
   }
 
-  .nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
+  .evento-fecha .dia {
+    font-size: 2.2rem;
   }
 
-  .nav-links li {
+  .evento-fecha .mes {
+    font-size: 0.75rem;
+    margin-top: 0;
+  }
+
+  /* contenido */
+  .evento-contenido {
+    padding: 1.6rem 1.4rem;
+  }
+
+  .evento-contenido h3 {
+    font-size: 1.5rem;
+  }
+
+  /* imagen */
+  .evento-img {
+    border-radius: 16px;
+    margin-bottom: 1.2rem;
+  }
+
+  /* botón */
+  .evento-btn {
+    width: 100%;
     text-align: center;
   }
 
-  .nav-links a {
-    font-size: 0.95rem;
+  /* badge archivado */
+  .evento-card.archivado::after {
+    top: 12px;
+    right: 12px;
+    font-size: 0.55rem;
   }
 }
-.nav-links a {
-  white-space: nowrap;
-}
+
