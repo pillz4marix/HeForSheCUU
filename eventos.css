@@ -320,58 +320,55 @@ footer {
   padding: 2rem;
 }
 
-/* ================= EVENTOS RESPONSIVE ================= */
+/* ================= HEADER RESPONSIVE ================= */
 @media (max-width: 768px) {
 
-  .evento-card {
-    flex-direction: column;
-    border-radius: 22px;
+  header {
+    width: 100%;
   }
 
-  /* fecha arriba */
-  .evento-fecha {
-    width: 100%;
-    min-width: unset;
-    padding: 1.5rem 1rem;
-    flex-direction: row;
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     justify-content: center;
-    gap: 0.8rem;
+    padding: 1rem;
+    gap: 0.5rem;
   }
 
-  .evento-fecha .dia {
-    font-size: 2.2rem;
-  }
-
-  .evento-fecha .mes {
-    font-size: 0.75rem;
-    margin-top: 0;
-  }
-
-  /* contenido */
-  .evento-contenido {
-    padding: 1.6rem 1.4rem;
-  }
-
-  .evento-contenido h3 {
-    font-size: 1.5rem;
-  }
-
-  /* imagen */
-  .evento-img {
-    border-radius: 16px;
-    margin-bottom: 1.2rem;
-  }
-
-  /* botón */
-  .evento-btn {
+  .logo-container {
     width: 100%;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
   }
 
-  /* badge archivado */
-  .evento-card.archivado::after {
-    top: 12px;
-    right: 12px;
-    font-size: 0.55rem;
+  .logo-img {
+    width: 32px;
+    height: auto;
+  }
+
+  .logo-text {
+    font-size: 1.1rem;
+  }
+
+  .nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0;
+    margin-top: 0.5rem;
+  }
+
+  .nav-links li {
+    list-style: none;
+  }
+
+  .nav-links li a {
+    font-size: 0.9rem;
+    white-space: nowrap;
   }
 }
