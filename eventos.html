@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Próximos Eventos | HeForShe</title>
+
+  <link rel="stylesheet" href="eventos.css">
+  <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+
+<header>
+  <nav>
+    <div class="logo-container">
+      <img src="img/heforshe-logo-united-nations-headquarters-gender-equality-un-women-emma-watson.jpg" alt="Logo HeForShe" class="logo-img">
+      <span class="logo-text">HeForShe</span>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="index.html#Nosotros">Sobre nosotros</a></li>
+      <li><a href="index.html#Instagram">Instagram</a></li>
+      <li><a href="eventos.html">Eventos</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section id="Eventos">
+  <h2>Próximos Eventos</h2>
+
+  <!-- EVENTO 1 -->
+  <div class="evento-card" data-fecha="2026-02-10">
+    <div class="evento-fecha">
+      <span class="dia">10</span>
+      <span class="mes">Febrero</span>
+    </div>
+    <div class="evento-contenido">
+      <div class="evento-img">
+        <img src="img/Cineforum.png" alt="Evento HeForShe">
+      </div>
+      <h3>Cineforum</h3>
+      <button class="evento-btn toggle-btn">Ver más información</button>
+      <div class="evento-info">
+        <p><strong>📅 Fecha:</strong> Martes, 10 de febrero</p>
+        <p><strong>⏰ Hora:</strong> 5:30 p.m.</p>
+        <p><strong>📍 Lugar:</strong> Salón VIVE</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTO 2 -->
+  <div class="evento-card" data-fecha="2026-02-11">
+    <div class="evento-fecha">
+      <span class="dia">11</span>
+      <span class="mes">Febrero</span>
+    </div>
+    <div class="evento-contenido">
+      <div class="evento-img">
+        <img src="img/evento-heforshe-14-feb.png" alt="Evento HeForShe">
+      </div>
+      <h3>Del Ideal al Vínculo Real</h3>
+      <button class="evento-btn toggle-btn">Ver más información</button>
+      <div class="evento-info">
+        <p><strong>📅 Fecha:</strong> Miércoles, 11 de febrero</p>
+        <p><strong>⏰ Hora:</strong> 5:30 p.m.</p>
+        <p><strong>📍 Lugar:</strong> SUM</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EVENTO 3 -->
+  <div class="evento-card" data-fecha="2026-02-12">
+    <div class="evento-fecha">
+      <span class="dia">12</span>
+      <span class="mes">Febrero</span>
+    </div>
+    <div class="evento-contenido">
+      <div class="evento-img">
+        <img src="img/Platica_con_proposito.png" alt="Evento HeForShe">
+      </div>
+      <h3>Diálogo con propósito</h3>
+      <button class="evento-btn toggle-btn">Ver más información</button>
+      <div class="evento-info">
+        <p><strong>📅 Fecha:</strong> Jueves, 12 de febrero</p>
+        <p><strong>⏰ Hora:</strong> Por confirmar</p>
+        <p><strong>📍 Lugar:</strong> Por confirmar</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- COMING SOON -->
+  <div class="eventos-soon-container">
+    <div class="coming-soon-card">
+      <img src="img/Proximamente.png" alt="Eventos próximamente">
+      <h3>COMING SOON...</h3>
+    </div>
+  </div>
+
+  <!-- TOGGLE -->
+  <div class="toggle-archivados" onclick="toggleArchivados()">
+    <span class="flecha">▸</span>
+    <span class="texto">Eventos pasados</span>
+  </div>
+
+  <!-- EVENTOS PASADOS -->
+  <section id="eventos-pasados" class="eventos-pasados oculto">
+    <h2>Eventos pasados</h2>
+    <div class="eventos-pasados-lista">
+      <!-- aquí se insertan los evento-card archivados -->
+    </div>
+  </section>
+
+</section>
+
+<footer>
+  <p>Gracias por tu interés. 🤍</p>
+  <p>Síguenos en nuestras redes y participa en los eventos</p>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const hoy = new Date();
+  const eventos = document.querySelectorAll(".evento-card");
+
+  // ✅ FIX: ahora apunta al div correcto
+  const contenedorPasados = document.querySelector(
+    "#eventos-pasados .eventos-pasados-lista"
+  );
+
+  eventos.forEach(evento => {
+    const fechaEvento = evento.getAttribute("data-fecha");
+    if (!fechaEvento) return;
+
+    const fecha = new Date(fechaEvento + "T23:59:59");
+
+    if (fecha < hoy) {
+      evento.classList.add("archivado");
+      contenedorPasados.appendChild(evento);
+    }
+  });
+
+  const botones = document.querySelectorAll(".toggle-btn");
+  botones.forEach(boton => {
+    boton.addEventListener("click", () => {
+      const info = boton.nextElementSibling;
+      info.classList.toggle("active");
+      boton.textContent = info.classList.contains("active")
+        ? "Ver menos información"
+        : "Ver más información";
+    });
+  });
+
+  const comingSoon = document.querySelector(".coming-soon-card");
+  if (comingSoon) {
+    setTimeout(() => {
+      comingSoon.classList.add("show");
+    }, 300);
+  }
+});
+
+function toggleArchivados() {
+  const contenedor = document.getElementById("eventos-pasados");
+  const toggle = document.querySelector(".toggle-archivados");
+
+  contenedor.classList.toggle("activo");
+  contenedor.classList.toggle("oculto");
+  toggle.classList.toggle("abierto");
+}
+</script>
+
+</body>
+</html>
