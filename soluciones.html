@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soluciones · HeForShe</title>
+<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   HeForShe · Soluciones
+   Reutiliza el sistema de diseño del sitio + paleta ampliada
+   (rosa, negro, blanco, morado, azul, amarillo, gris)
+============================================================ */
+
+:root{
+  --ink:#141414;
+  --ink-soft:#59535c;
+  --paper:#fffbfc;
+  --surface:#ffffff;
+  --blush:#ffe4ef;
+  --blush-2:#ffc9de;
+  --magenta:#ff2d76;
+  --magenta-deep:#c40a55;
+  --rose:#ff6fa0;
+  --violet-deep:#0d0d0d;
+  --orchid-light:#ff4f93;
+  --line: rgba(12,12,12,0.1);
+  --shadow-soft: 0 24px 55px rgba(12,12,12,0.13);
+  --shadow-tight: 0 8px 20px rgba(12,12,12,0.09);
+  --radius-lg: 30px;
+  --radius-md: 20px;
+  --radius-sm: 12px;
+  --font-display:'Fraunces', serif;
+  --font-body:'Inter', sans-serif;
+  --font-label:'Space Grotesk', sans-serif;
+
+  /* paleta ampliada para las tarjetas de soluciones */
+  --sol-pink:#ff2d76;
+  --sol-pink-soft:#ffd6e6;
+  --sol-black:#121212;
+  --sol-white:#ffffff;
+  --sol-purple:#6c4bd6;
+  --sol-purple-deep:#3f2b8c;
+  --sol-blue:#2f6fed;
+  --sol-blue-deep:#1c3f91;
+  --sol-yellow:#ffd23f;
+  --sol-gray:#3a3a3f;
+  --sol-gray-light:#c9c9d1;
+  --sol-blue-tint:#8fb0ff;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  line-height:1.65;
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3{ font-family: var(--font-display); color: var(--violet-deep); }
+a{ color:inherit; }
+img{ display:block; max-width:100%; }
+:focus-visible{ outline: 3px solid var(--orchid-light); outline-offset: 3px; }
+
+.eyebrow{
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--magenta-deep);
+}
+
+/* ================= HEADER / NAV (idéntico al resto del sitio) ================= */
+header{
+  position: sticky;
+  top:0;
+  z-index: 50;
+  background: rgba(255,249,251,0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 0.9rem 2rem;
+  max-width: 1240px;
+  margin: 0 auto;
+  position: relative;
+}
+.logo-container{ display:flex; align-items:center; gap:0.7rem; text-decoration:none; color:inherit; }
+.logo-img{ width: 44px; height:44px; object-fit:cover; border-radius: 50%; border: 2px solid var(--blush-2); }
+.logo-text{ font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--violet-deep); letter-spacing: 0.5px; }
+
+.nav-toggle{ display:none; background:none; border:none; cursor:pointer; width: 40px; height:40px; position:relative; z-index: 60; }
+.nav-toggle span{ position:absolute; left:8px; right:8px; height:2px; background: var(--violet-deep); border-radius:2px; transition: transform .3s ease, opacity .3s ease, top .3s ease; }
+.nav-toggle span:nth-child(1){ top:13px; }
+.nav-toggle span:nth-child(2){ top:19px; }
+.nav-toggle span:nth-child(3){ top:25px; }
+.nav-toggle.open span:nth-child(1){ top:19px; transform: rotate(45deg); }
+.nav-toggle.open span:nth-child(2){ opacity:0; }
+.nav-toggle.open span:nth-child(3){ top:19px; transform: rotate(-45deg); }
+
+.nav-links{ display:flex; list-style:none; gap: 2.2rem; font-family: var(--font-label); }
+.nav-links a{ text-decoration:none; color: var(--ink); font-weight: 600; font-size: 0.92rem; letter-spacing: 0.3px; position: relative; padding-bottom: 4px; transition: color 0.3s ease; }
+.nav-links a::after{ content:""; position:absolute; left:0; bottom:0; width:0%; height:2px; background: linear-gradient(90deg, var(--magenta), var(--orchid-light)); transition: width 0.3s ease; }
+.nav-links a:hover{ color: var(--magenta-deep); }
+.nav-links a:hover::after{ width:100%; }
+.nav-links a.active{ color: var(--magenta-deep); }
+.nav-links a.active::after{ width:100%; }
+
+@media (max-width: 768px){
+  .nav-toggle{ display:block; }
+  .nav-links{
+    position:absolute; top: 100%; left:0; right:0;
+    background: var(--paper);
+    flex-direction:column; align-items:flex-start; gap: 0;
+    max-height:0; overflow:hidden;
+    transition: max-height 0.4s ease;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-links.open{ max-height: 320px; }
+  .nav-links li{ width:100%; }
+  .nav-links a{ display:block; padding: 0.9rem 2rem; width:100%; }
+  .nav-links a::after{ display:none; }
+}
+
+/* ================= HERO DE LA PÁGINA ================= */
+.sol-hero{
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 2.5rem;
+  text-align:center;
+}
+.sol-hero .eyebrow{ display:block; margin-bottom:0.9rem; }
+.sol-hero h1{
+  font-size: clamp(2.1rem, 4.5vw, 3.1rem);
+  line-height:1.15;
+  margin-bottom: 1.1rem;
+}
+.sol-hero p{
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ================= GRID DE SOLUCIONES ================= */
+.sol-grid{
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 5rem;
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.6rem;
+}
+@media (max-width: 980px){ .sol-grid{ grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px){ .sol-grid{ grid-template-columns: 1fr; } }
+
+.sol-card{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  border-radius: 4px 42px 4px 42px;
+  padding: 2.3rem 2rem 2rem;
+  min-height: 290px;
+  display:flex;
+  flex-direction:column;
+  box-shadow: 0 12px 26px rgba(20,20,20,0.12);
+  transition: transform 0.3s ease;
+}
+.sol-card:hover{ transform: translateY(-5px); }
+
+.sol-num{
+  position:absolute;
+  top: 1.4rem;
+  right: 1.5rem;
+  width: 34px;
+  height: 34px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius: 50%;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.82rem;
+  z-index: 2;
+}
+.sol-tag{
+  display:inline-flex;
+  align-items:center;
+  gap: 0.5rem;
+  align-self:flex-start;
+  font-family: var(--font-label);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding-right: 2.6rem;
+  margin-bottom: 1.3rem;
+  position:relative;
+  z-index:2;
+}
+.sol-tag::before{
+  content:"";
+  width: 7px; height:7px;
+  border-radius:50%;
+  flex-shrink:0;
+}
+.sol-card h3{
+  font-size: 1.32rem;
+  line-height:1.22;
+  margin-bottom: 0.65rem;
+  position:relative;
+  z-index:2;
+}
+.sol-card p{
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-top:auto;
+  padding-top: 0.8rem;
+  position:relative;
+  z-index:2;
+}
+
+/* --- 01 · negro + rosa · esquina doblada --- */
+.sol-card--a{ background: var(--sol-black); color:#f1eef1; }
+.sol-card--a::before{
+  content:"";
+  position:absolute;
+  top:0; left:0;
+  width:0; height:0;
+  border-style:solid;
+  border-width: 46px 46px 0 0;
+  border-color: var(--sol-pink) transparent transparent transparent;
+  z-index:1;
+}
+.sol-card--a .sol-tag{ margin-top:0.3rem; color: var(--sol-pink); }
+.sol-card--a .sol-tag::before{ background: var(--sol-pink); }
+.sol-card--a .sol-num{ background: rgba(255,255,255,0.14); color:#fff; }
+.sol-card--a h3{ color:#fff; }
+.sol-card--a p{ color:#d3cdd3; }
+
+/* --- 02 · amarillo + gris · sombra sólida desplazada --- */
+.sol-card--b{
+  background: var(--sol-yellow);
+  color: var(--sol-black);
+  box-shadow: 9px 9px 0 var(--sol-gray);
+}
+.sol-card--b .sol-tag{ color:#3a2f00; }
+.sol-card--b .sol-tag::before{ background: var(--sol-gray); }
+.sol-card--b .sol-num{ background: var(--sol-black); color: var(--sol-yellow); }
+.sol-card--b p{ color:#4a3d00; }
+
+/* --- 03 · azul + morado · corte diagonal nítido --- */
+.sol-card--c{
+  background: linear-gradient(115deg, var(--sol-blue-deep) 0%, var(--sol-blue-deep) 52%, var(--sol-purple-deep) 52%, var(--sol-purple-deep) 100%);
+  color:#fff;
+}
+.sol-card--c .sol-tag{ color:#fff; }
+.sol-card--c .sol-tag::before{ background:#fff; }
+.sol-card--c .sol-num{ background: rgba(255,255,255,0.18); color:#fff; }
+.sol-card--c h3{ color:#fff; }
+.sol-card--c p{ color:#e7e9fb; }
+
+/* --- 04 · blanco + rosa · doble marco punteado --- */
+.sol-card--d{ background:#fff; color: var(--sol-black); border: 2px solid var(--sol-black); box-shadow:none; }
+.sol-card--d::before{
+  content:"";
+  position:absolute;
+  inset: 8px;
+  border: 1.5px dashed var(--sol-pink);
+  border-radius: 2px 34px 2px 34px;
+  pointer-events:none;
+}
+.sol-card--d .sol-tag{ color: var(--magenta-deep); }
+.sol-card--d .sol-tag::before{ background: var(--sol-pink); }
+.sol-card--d .sol-num{ background: var(--sol-black); color:#fff; }
+.sol-card--d p{ color: var(--ink-soft); }
+
+/* --- 05 · morado + amarillo · pestaña doblada --- */
+.sol-card--e{ background: var(--sol-purple); color:#fff; }
+.sol-card--e::after{
+  content:"";
+  position:absolute;
+  bottom:0; left:0;
+  width:0; height:0;
+  border-style:solid;
+  border-width: 0 0 42px 42px;
+  border-color: transparent transparent var(--sol-yellow) transparent;
+}
+.sol-card--e .sol-tag{ color: var(--sol-yellow); }
+.sol-card--e .sol-tag::before{ background: var(--sol-yellow); }
+.sol-card--e .sol-num{ background: rgba(255,255,255,0.18); color:#fff; }
+.sol-card--e h3{ color:#fff; }
+.sol-card--e p{ color:#ece5fb; }
+
+/* --- 06 · gris + rosa · franja angular al pie --- */
+.sol-card--f{ background: var(--sol-gray); color:#fff; }
+.sol-card--f::before{
+  content:"";
+  position:absolute;
+  left:-12%; right:-12%;
+  bottom:-16px;
+  height: 42px;
+  background: var(--sol-pink);
+  transform: rotate(-3deg);
+  z-index:1;
+}
+.sol-card--f .sol-tag{ color: var(--sol-pink-soft); }
+.sol-card--f .sol-tag::before{ background: var(--sol-pink); }
+.sol-card--f .sol-num{ background: rgba(255,255,255,0.14); color:#fff; }
+.sol-card--f h3{ color:#fff; }
+.sol-card--f p{ color: var(--sol-gray-light); padding-bottom: 1.3rem; }
+
+/* --- 07 · rosa suave + morado · sello punteado --- */
+.sol-card--g{ background: var(--sol-pink-soft); color: var(--sol-black); }
+.sol-card--g .sol-tag{ color: var(--sol-purple-deep); }
+.sol-card--g .sol-tag::before{ background: var(--sol-purple-deep); }
+.sol-card--g .sol-num{ background:transparent; border: 1.5px dashed var(--sol-purple-deep); color: var(--sol-purple-deep); }
+.sol-card--g h3{ color:#3a1030; }
+.sol-card--g p{ color:#6a3350; }
+
+/* --- 08 · negro + azul · cinta lateral --- */
+.sol-card--h{ background: var(--sol-black); color:#fff; padding-left: 3.2rem; }
+.sol-card--h::before{
+  content:"";
+  position:absolute;
+  top:0; left:0; bottom:0;
+  width: 13px;
+  background: var(--sol-blue);
+  z-index:1;
+}
+.sol-card--h .sol-tag{ color: var(--sol-blue-tint); }
+.sol-card--h .sol-tag::before{ background: var(--sol-blue-tint); }
+.sol-card--h .sol-num{ background: var(--sol-blue-deep); color:#fff; }
+.sol-card--h h3{ color:#fff; }
+.sol-card--h p{ color:#d8d8de; }
+
+/* ================= FOOTER (idéntico al resto del sitio) ================= */
+footer{
+  background: linear-gradient(135deg, var(--violet-deep), #050505);
+  color:#fff;
+  text-align:center;
+  padding: 2.6rem 2rem;
+  font-family: var(--font-label);
+}
+footer p:first-child{ font-size:1.05rem; font-weight:600; margin-bottom:0.3rem; }
+footer p:last-child{ opacity:0.85; font-size:0.9rem; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="index.html" class="logo-container">
+      <img src="img/heforshe-logo-united-nations-headquarters-gender-equality-un-women-emma-watson.jpg" alt="Logo HeForShe" class="logo-img">
+      <span class="logo-text">HeForShe</span>
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="index.html#hero">Inicio</a></li>
+      <li><a href="index.html#Nosotros">Sobre nosotros</a></li>
+      <li><a href="soluciones.html" class="active">Soluciones</a></li>
+      <li><a href="index.html#Instagram">Instagram</a></li>
+      <li><a href="eventos.html">Eventos</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+  <!-- Hero de la página -->
+  <section class="sol-hero">
+    <span class="eyebrow">🩷 Ponlo en práctica</span>
+    <h1>Soluciones para vivir la igualdad todos los días</h1>
+    <p>Ocho formas concretas de convertir el compromiso en acción, dentro y fuera del campus.</p>
+  </section>
+
+  <!-- Grid de tarjetas -->
+  <section class="sol-grid">
+
+    <div class="sol-card sol-card--a">
+      <span class="sol-num">01</span>
+      <span class="sol-tag">En casa</span>
+      <h3>Reparte las tareas sin etiquetas de género</h3>
+      <p>Cocinar, limpiar y cuidar no son "trabajos de mujeres". Repartir las tareas del hogar de forma equitativa es de los cambios más simples y más poderosos.</p>
+    </div>
+
+    <div class="sol-card sol-card--b">
+      <span class="sol-num">02</span>
+      <span class="sol-tag">Habla claro</span>
+      <h3>Cuestiona los chistes y comentarios sexistas</h3>
+      <p>El silencio también normaliza. Decir "eso no me parece gracioso" en el momento correcto puede cambiar una conversación entera.</p>
+    </div>
+
+    <div class="sol-card sol-card--c">
+      <span class="sol-num">03</span>
+      <span class="sol-tag">Liderazgo</span>
+      <h3>Impulsa el liderazgo femenino</h3>
+      <p>Cede el micrófono, reconoce el trabajo y respalda públicamente a las mujeres que lideran en tu escuela, equipo o comunidad.</p>
+    </div>
+
+    <div class="sol-card sol-card--d">
+      <span class="sol-num">04</span>
+      <span class="sol-tag">Escucha</span>
+      <h3>Escucha antes de opinar</h3>
+      <p>Validar la experiencia de otras personas no cuesta nada y cambia todo. Escuchar sin interrumpir es un acto de respeto.</p>
+    </div>
+
+    <div class="sol-card sol-card--e">
+      <span class="sol-num">05</span>
+      <span class="sol-tag">Infórmate</span>
+      <h3>Comparte contenido que eduque</h3>
+      <p>Infórmate sobre igualdad de género y comparte lo que aprendas. La educación se multiplica cuando circula.</p>
+    </div>
+
+    <div class="sol-card sol-card--f">
+      <span class="sol-num">06</span>
+      <span class="sol-tag">Sé activo</span>
+      <h3>Sé un aliado activo, no un espectador</h3>
+      <p>Ver una injusticia y no decir nada también es una decisión. Actuar, aunque sea en lo pequeño, es lo que mueve al movimiento.</p>
+    </div>
+
+    <div class="sol-card sol-card--g">
+      <span class="sol-num">07</span>
+      <span class="sol-tag">Auto-crítica</span>
+      <h3>Reconoce tus propios sesgos</h3>
+      <p>Todos crecimos con estereotipos. Identificarlos en nosotros mismos es el primer paso, incómodo pero necesario, para cambiarlos.</p>
+    </div>
+
+    <div class="sol-card sol-card--h">
+      <span class="sol-num">08</span>
+      <span class="sol-tag">Comunidad</span>
+      <h3>Construye espacios seguros</h3>
+      <p>En el salón, en el equipo o en la fiesta: intervén, acompaña y no dejes a nadie solo ante una situación de acoso o violencia.</p>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>Gracias por tu interés. 🤍</p>
+  <p>Síguenos en nuestras redes y participa en los eventos</p>
+</footer>
+
+<script>
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('open');
+  }));
+</script>
+
+</body>
+</html>

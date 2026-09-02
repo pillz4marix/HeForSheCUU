@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de administración | HeForShe</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,600;0,700;1,400&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141414;
+  --ink-soft:#59535c;
+  --paper:#fffbfc;
+  --surface:#ffffff;
+  --blush:#ffe4ef;
+  --blush-2:#ffc9de;
+  --magenta:#ff2d76;
+  --magenta-deep:#c40a55;
+  --rose:#ff6fa0;
+  --violet-deep:#0d0d0d;
+  --line: rgba(12,12,12,0.1);
+  --shadow-soft: 0 24px 55px rgba(12,12,12,0.13);
+  --shadow-tight: 0 8px 20px rgba(12,12,12,0.09);
+  --radius-lg: 22px;
+  --radius-md: 14px;
+  --radius-sm: 9px;
+  --font-display:'Fraunces', serif;
+  --font-body:'Inter', sans-serif;
+  --font-label:'Space Grotesk', sans-serif;
+  --good:#1e8a52;
+  --bad:#d63333;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  line-height:1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3{ font-family: var(--font-display); color: var(--violet-deep); }
+a{ color:inherit; }
+button{ font-family: var(--font-body); cursor:pointer; }
+input, textarea, select{ font-family: var(--font-body); font-size:0.95rem; }
+
+/* ---------- shell ---------- */
+.topbar{
+  position:sticky; top:0; z-index:20;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 1rem 2rem;
+  background: rgba(255,249,251,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+.topbar-brand{ display:flex; align-items:center; gap:0.7rem; }
+.topbar-brand img{ width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid var(--blush-2); }
+.topbar-brand span{ font-family: var(--font-display); font-weight:700; font-size:1.15rem; }
+.topbar-user{ display:flex; align-items:center; gap:1rem; font-family: var(--font-label); font-size:0.85rem; color: var(--ink-soft); }
+.btn{
+  font-family: var(--font-label);
+  font-weight:700;
+  font-size:0.85rem;
+  letter-spacing:0.2px;
+  padding: 0.65rem 1.3rem;
+  border-radius: 999px;
+  border:none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.btn-primary{ background: linear-gradient(135deg, var(--magenta), var(--rose)); color:#fff; box-shadow: 0 10px 22px rgba(226,60,142,0.35); }
+.btn-primary:hover{ transform: translateY(-2px); }
+.btn-primary:disabled{ opacity:0.5; cursor:not-allowed; transform:none; }
+.btn-ghost{ background: var(--surface); color: var(--ink); border:1px solid var(--line); }
+.btn-ghost:hover{ border-color: var(--magenta); color: var(--magenta-deep); }
+.btn-danger{ background:#fff; color: var(--bad); border:1px solid rgba(214,51,51,0.35); }
+.btn-danger:hover{ background: rgba(214,51,51,0.08); }
+.btn-small{ padding:0.45rem 1rem; font-size:0.75rem; }
+
+/* ---------- login ---------- */
+#login-screen{
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  padding: 2rem;
+  background: radial-gradient(circle at 20% 20%, #262626 0%, var(--violet-deep) 45%, #000 100%);
+}
+.login-card{
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 2.8rem 2.4rem;
+  max-width: 380px;
+  width:100%;
+}
+.login-card .eyebrow{
+  font-family: var(--font-label); font-size:0.7rem; font-weight:700;
+  letter-spacing:2.5px; text-transform:uppercase; color: var(--magenta-deep);
+  display:block; margin-bottom:0.6rem;
+}
+.login-card h1{ font-size:1.6rem; margin-bottom:1.6rem; }
+.field{ margin-bottom:1.1rem; }
+.field label{ display:block; font-family: var(--font-label); font-size:0.78rem; font-weight:700; margin-bottom:0.4rem; color: var(--ink-soft); }
+.field input, .field textarea, .field select{
+  width:100%;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  transition: border-color 0.2s ease;
+}
+.field input:focus, .field textarea:focus, .field select:focus{ outline:none; border-color: var(--magenta); }
+.field textarea{ resize:vertical; min-height:90px; }
+#login-error, .form-error{
+  color: var(--bad);
+  font-size:0.85rem;
+  margin-top:0.8rem;
+  display:none;
+}
+#login-error.show, .form-error.show{ display:block; }
+.login-card button[type="submit"]{ width:100%; margin-top:0.4rem; }
+
+/* ---------- dashboard ---------- */
+#dashboard{ display:none; max-width: 980px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+.dash-head{ margin-bottom:2.2rem; }
+.dash-head .eyebrow{ font-family: var(--font-label); font-size:0.7rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color: var(--magenta-deep); display:block; margin-bottom:0.5rem; }
+.dash-head h1{ font-size:1.9rem; }
+.dash-head p{ color: var(--ink-soft); margin-top:0.4rem; font-size:0.95rem; }
+
+.panel{
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-tight);
+  padding: 2rem;
+  margin-bottom: 2.4rem;
+}
+.panel h2{ font-size:1.25rem; margin-bottom:1.4rem; }
+
+.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:1.1rem 1.4rem; }
+.grid-3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.1rem 1.4rem; }
+.span-2{ grid-column: span 2; }
+
+.media-type-toggle{ display:flex; gap:0.6rem; margin-bottom:1.1rem; }
+.media-type-toggle label{
+  flex:1;
+  display:flex; align-items:center; justify-content:center; gap:0.5rem;
+  padding:0.7rem; border-radius: var(--radius-sm);
+  border:1.5px solid var(--line);
+  font-family: var(--font-label); font-size:0.82rem; font-weight:700;
+  cursor:pointer; transition: border-color 0.2s ease, background 0.2s ease;
+}
+.media-type-toggle input{ display:none; }
+.media-type-toggle input:checked + span{ color: var(--magenta-deep); }
+.media-type-toggle label:has(input:checked){ border-color: var(--magenta); background: var(--blush); }
+
+.file-drop{
+  border: 1.5px dashed var(--blush-2);
+  border-radius: var(--radius-md);
+  padding: 1.2rem;
+  text-align:center;
+  font-size:0.85rem;
+  color: var(--ink-soft);
+  background: var(--blush);
+}
+.file-drop input{ width:100%; margin-top:0.6rem; }
+.preview-box{ margin-top:0.8rem; display:none; }
+.preview-box.show{ display:block; }
+.preview-box img, .preview-box video{ max-width:180px; max-height:180px; border-radius:10px; box-shadow: var(--shadow-tight); }
+
+.progress-wrap{ margin-top:1rem; display:none; }
+.progress-wrap.show{ display:block; }
+.progress-track{ height:8px; border-radius:999px; background: var(--blush); overflow:hidden; }
+.progress-fill{ height:100%; width:0%; background: linear-gradient(90deg, var(--magenta), var(--rose)); transition: width 0.2s ease; }
+.progress-label{ font-size:0.78rem; color: var(--ink-soft); margin-top:0.4rem; font-family: var(--font-label); }
+
+.form-actions{ display:flex; gap:0.8rem; margin-top:1.6rem; align-items:center; }
+.form-status{ font-size:0.85rem; font-family: var(--font-label); font-weight:700; }
+.form-status.ok{ color: var(--good); }
+.form-status.bad{ color: var(--bad); }
+
+/* lista de eventos existentes */
+.evento-row{
+  display:flex; align-items:center; gap:1.1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.evento-row:last-child{ border-bottom:none; }
+.evento-row-thumb{ width:64px; height:64px; border-radius:10px; overflow:hidden; flex-shrink:0; background: var(--blush); }
+.evento-row-thumb img{ width:100%; height:100%; object-fit:cover; }
+.evento-row-info{ flex:1; min-width:0; }
+.evento-row-info h3{ font-size:1.02rem; margin-bottom:0.2rem; }
+.evento-row-meta{ font-size:0.82rem; color: var(--ink-soft); display:flex; gap:0.8rem; flex-wrap:wrap; }
+.evento-row-badge{
+  font-family: var(--font-label); font-size:0.65rem; font-weight:700;
+  padding:0.2rem 0.6rem; border-radius:999px;
+  background: var(--blush); color: var(--magenta-deep);
+}
+.evento-row-badge.pasado{ background:#ececec; color:#7a7a7a; }
+.evento-row-actions{ display:flex; gap:0.5rem; flex-shrink:0; }
+.empty-state{ text-align:center; padding: 2.4rem 1rem; color: var(--ink-soft); font-size:0.92rem; }
+
+@media (max-width: 700px){
+  .grid-2, .grid-3{ grid-template-columns:1fr; }
+  .span-2{ grid-column: span 1; }
+  .evento-row{ flex-wrap:wrap; }
+  .evento-row-actions{ width:100%; justify-content:flex-end; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ PANTALLA DE LOGIN ============ -->
+<div id="login-screen">
+  <div class="login-card">
+    <span class="eyebrow">HeForShe · Comité</span>
+    <h1>Panel de eventos</h1>
+    <form id="login-form">
+      <div class="field">
+        <label for="login-email">Correo</label>
+        <input type="email" id="login-email" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="login-password">Contraseña</label>
+        <input type="password" id="login-password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn btn-primary">Entrar</button>
+      <p id="login-error"></p>
+    </form>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="dashboard">
+  <div class="topbar" style="position:static; padding:0; border:none; background:none; margin-bottom:2rem;">
+    <div class="topbar-brand">
+      <img src="img/heforshe-logo-united-nations-headquarters-gender-equality-un-women-emma-watson.jpg" alt="Logo HeForShe">
+      <span>HeForShe · Admin</span>
+    </div>
+    <div class="topbar-user">
+      <span id="user-email"></span>
+      <button class="btn btn-ghost btn-small" id="logout-btn">Cerrar sesión</button>
+    </div>
+  </div>
+
+  <div class="dash-head">
+    <span class="eyebrow">Agenda estudiantil</span>
+    <h1>Gestionar eventos</h1>
+    <p>Agrega, edita o elimina los eventos que se muestran en la página. El sitio se actualiza solo: cuando la fecha de un evento pasa, se archiva automáticamente y deja de aparecer como "próximo".</p>
+  </div>
+
+  <!-- FORMULARIO -->
+  <div class="panel">
+    <h2 id="form-title">Agregar evento nuevo</h2>
+    <form id="evento-form">
+      <input type="hidden" id="evento-id">
+
+      <div class="grid-2">
+        <div class="field span-2">
+          <label for="f-titulo">Título del evento</label>
+          <input type="text" id="f-titulo" placeholder="Ej. Noche Mexicana" required>
+        </div>
+        <div class="field">
+          <label for="f-tag">Categoría / etiqueta</label>
+          <input type="text" id="f-tag" placeholder="Ej. Fiesta, Charla, Cine" required>
+        </div>
+        <div class="field">
+          <label for="f-fecha">Fecha</label>
+          <input type="date" id="f-fecha" required>
+        </div>
+        <div class="field">
+          <label for="f-hora">Hora</label>
+          <input type="text" id="f-hora" placeholder="Ej. 7:00 p.m.">
+        </div>
+        <div class="field">
+          <label for="f-ubicacion">Ubicación</label>
+          <input type="text" id="f-ubicacion" placeholder="Ej. Canchas de Tecmilenio">
+        </div>
+        <div class="field span-2">
+          <label for="f-metaextra">Dato extra (opcional, ej. precio)</label>
+          <input type="text" id="f-metaextra" placeholder="Ej. 🎉 Jamoncillos $10 c/u">
+        </div>
+        <div class="field span-2">
+          <label for="f-descripcion">Descripción</label>
+          <textarea id="f-descripcion" placeholder="Cuéntanos de qué trata el evento..." required></textarea>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:0.6rem;">
+        <label>Tipo de contenido</label>
+        <div class="media-type-toggle">
+          <label><input type="radio" name="mediaTipo" value="imagen" checked><span>🖼️ Imagen</span></label>
+          <label><input type="radio" name="mediaTipo" value="video"><span>🎬 Video</span></label>
+        </div>
+      </div>
+
+      <div class="field" id="media-field">
+        <label id="media-label">Imagen del evento</label>
+        <div class="file-drop">
+          <span id="media-hint">Se usa como portada en la lista de eventos y (si es el próximo evento) en el inicio.</span>
+          <input type="file" id="f-media" accept="image/*">
+        </div>
+        <div class="preview-box" id="media-preview"></div>
+      </div>
+
+      <div class="field" id="poster-field" style="display:none;">
+        <label>Miniatura del video (portada)</label>
+        <div class="file-drop">
+          <span>Imagen fija que se muestra mientras el video carga, y como miniatura en la lista de eventos.</span>
+          <input type="file" id="f-poster" accept="image/*">
+        </div>
+        <div class="preview-box" id="poster-preview"></div>
+      </div>
+
+      <div class="progress-wrap" id="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="progress-label" id="progress-label">Subiendo archivo...</div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" id="submit-btn">Guardar evento</button>
+        <button type="button" class="btn btn-ghost" id="cancel-edit-btn" style="display:none;">Cancelar edición</button>
+        <span class="form-status" id="form-status"></span>
+      </div>
+    </form>
+  </div>
+
+  <!-- LISTA DE EVENTOS -->
+  <div class="panel">
+    <h2>Eventos existentes</h2>
+    <div id="eventos-lista-admin">
+      <p class="empty-state">Cargando eventos...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FIREBASE ============ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+<script src="cloudinary-config.js"></script>
+
+<script>
+const loginScreen = document.getElementById('login-screen');
+const dashboard = document.getElementById('dashboard');
+const loginForm = document.getElementById('login-form');
+const loginError = document.getElementById('login-error');
+const userEmailEl = document.getElementById('user-email');
+
+// ---------- LOGIN / SESIÓN ----------
+loginForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  loginError.classList.remove('show');
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-password').value;
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (err) {
+    console.error(err);
+    loginError.textContent = `Error: ${err.code || err.message}`;
+    loginError.classList.add('show');
+  }
+});
+
+document.getElementById('logout-btn').addEventListener('click', () => auth.signOut());
+
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    loginScreen.style.display = 'none';
+    dashboard.style.display = 'block';
+    userEmailEl.textContent = user.email;
+    cargarEventosAdmin();
+  } else {
+    loginScreen.style.display = 'flex';
+    dashboard.style.display = 'none';
+  }
+});
+
+// ---------- FORMULARIO: tipo de media ----------
+const mediaLabel = document.getElementById('media-label');
+const mediaHint = document.getElementById('media-hint');
+const posterField = document.getElementById('poster-field');
+const fMedia = document.getElementById('f-media');
+
+document.querySelectorAll('input[name="mediaTipo"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const esVideo = document.querySelector('input[name="mediaTipo"]:checked').value === 'video';
+    fMedia.accept = esVideo ? 'video/*' : 'image/*';
+    mediaLabel.textContent = esVideo ? 'Video del evento' : 'Imagen del evento';
+    mediaHint.textContent = esVideo
+      ? 'Este video se muestra en el inicio mientras sea el próximo evento.'
+      : 'Se usa como portada en la lista de eventos y (si es el próximo evento) en el inicio.';
+    posterField.style.display = esVideo ? 'block' : 'none';
+  });
+});
+
+function mostrarPreview(file, contenedorId, comoVideo) {
+  const contenedor = document.getElementById(contenedorId);
+  const url = URL.createObjectURL(file);
+  contenedor.innerHTML = comoVideo
+    ? `<video src="${url}" muted controls></video>`
+    : `<img src="${url}" alt="preview">`;
+  contenedor.classList.add('show');
+}
+fMedia.addEventListener('change', () => {
+  if (fMedia.files[0]) {
+    const esVideo = document.querySelector('input[name="mediaTipo"]:checked').value === 'video';
+    mostrarPreview(fMedia.files[0], 'media-preview', esVideo);
+  }
+});
+document.getElementById('f-poster').addEventListener('change', (e) => {
+  if (e.target.files[0]) mostrarPreview(e.target.files[0], 'poster-preview', false);
+});
+
+// ---------- GUARDAR (crear / editar) ----------
+const eventoForm = document.getElementById('evento-form');
+const submitBtn = document.getElementById('submit-btn');
+const cancelEditBtn = document.getElementById('cancel-edit-btn');
+const formTitle = document.getElementById('form-title');
+const formStatus = document.getElementById('form-status');
+const progressWrap = document.getElementById('progress-wrap');
+const progressFill = document.getElementById('progress-fill');
+const progressLabel = document.getElementById('progress-label');
+
+// Sube un archivo a Cloudinary (plan gratis, sin tarjeta) usando un
+// "unsigned upload preset" — ver cloudinary-config.js para configurarlo.
+function subirArchivo(file, carpeta) {
+  return new Promise((resolve, reject) => {
+    if (!CLOUDINARY_CLOUD_NAME || CLOUDINARY_CLOUD_NAME === "TU_CLOUD_NAME") {
+      reject(new Error("Falta configurar cloudinary-config.js"));
+      return;
+    }
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    formData.append('folder', carpeta);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`);
+
+    progressWrap.classList.add('show');
+    xhr.upload.addEventListener('progress', (e) => {
+      if (!e.lengthComputable) return;
+      const pct = Math.round((e.loaded / e.total) * 100);
+      progressFill.style.width = pct + '%';
+      progressLabel.textContent = `Subiendo archivo... ${pct}%`;
+    });
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const data = JSON.parse(xhr.responseText);
+        resolve(data.secure_url);
+      } else {
+        reject(new Error('Error al subir a Cloudinary: ' + xhr.responseText));
+      }
+    };
+    xhr.onerror = () => reject(new Error('Error de red al subir el archivo'));
+    xhr.send(formData);
+  });
+}
+
+eventoForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  formStatus.textContent = '';
+  formStatus.className = 'form-status';
+  submitBtn.disabled = true;
+
+  const id = document.getElementById('evento-id').value || db.collection('eventos').doc().id;
+  const mediaTipo = document.querySelector('input[name="mediaTipo"]:checked').value;
+  const mediaFile = fMedia.files[0];
+  const posterFile = document.getElementById('f-poster').files[0];
+
+  const datos = {
+    titulo: document.getElementById('f-titulo').value.trim(),
+    tag: document.getElementById('f-tag').value.trim(),
+    fecha: document.getElementById('f-fecha').value,
+    hora: document.getElementById('f-hora').value.trim(),
+    ubicacion: document.getElementById('f-ubicacion').value.trim(),
+    metaExtra: document.getElementById('f-metaextra').value.trim(),
+    descripcion: document.getElementById('f-descripcion').value.trim(),
+    mediaTipo,
+    actualizadoEn: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  try {
+    if (mediaFile) {
+      datos.mediaUrl = await subirArchivo(mediaFile, `heforshe-eventos/${id}`);
+    }
+    if (mediaTipo === 'video' && posterFile) {
+      datos.posterUrl = await subirArchivo(posterFile, `heforshe-eventos/${id}`);
+    }
+
+    const esNuevo = !document.getElementById('evento-id').value;
+    if (esNuevo) {
+      datos.creadoEn = firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('eventos').doc(id).set(datos);
+    } else {
+      await db.collection('eventos').doc(id).update(datos);
+    }
+
+    formStatus.textContent = '✓ Evento guardado';
+    formStatus.classList.add('ok');
+    resetForm();
+    cargarEventosAdmin();
+  } catch (err) {
+    console.error(err);
+    formStatus.textContent = 'Ocurrió un error al guardar. Intenta de nuevo.';
+    formStatus.classList.add('bad');
+  } finally {
+    submitBtn.disabled = false;
+    progressWrap.classList.remove('show');
+    progressFill.style.width = '0%';
+  }
+});
+
+function resetForm() {
+  eventoForm.reset();
+  document.getElementById('evento-id').value = '';
+  document.getElementById('media-preview').classList.remove('show');
+  document.getElementById('poster-preview').classList.remove('show');
+  posterField.style.display = 'none';
+  formTitle.textContent = 'Agregar evento nuevo';
+  submitBtn.textContent = 'Guardar evento';
+  cancelEditBtn.style.display = 'none';
+}
+cancelEditBtn.addEventListener('click', resetForm);
+
+// ---------- LISTA / EDITAR / ELIMINAR ----------
+const listaAdminEl = document.getElementById('eventos-lista-admin');
+
+function cargarEventosAdmin() {
+  db.collection('eventos').orderBy('fecha', 'desc').onSnapshot((snap) => {
+    if (snap.empty) {
+      listaAdminEl.innerHTML = '<p class="empty-state">Aún no has agregado ningún evento. Usa el formulario de arriba para crear el primero.</p>';
+      return;
+    }
+    const hoy = new Date().toISOString().slice(0, 10);
+    listaAdminEl.innerHTML = '';
+    snap.forEach(doc => {
+      const ev = doc.data();
+      const pasado = ev.fecha < hoy;
+      const thumb = ev.mediaTipo === 'video' ? (ev.posterUrl || '') : (ev.mediaUrl || '');
+      const row = document.createElement('div');
+      row.className = 'evento-row';
+      row.innerHTML = `
+        <div class="evento-row-thumb">${thumb ? `<img src="${thumb}" alt="">` : ''}</div>
+        <div class="evento-row-info">
+          <h3>${escapeHtml(ev.titulo || '(Sin título)')}</h3>
+          <div class="evento-row-meta">
+            <span class="evento-row-badge ${pasado ? 'pasado' : ''}">${pasado ? 'Finalizado' : 'Próximo'}</span>
+            <span>${formatearFecha(ev.fecha)}</span>
+            <span>${escapeHtml(ev.tag || '')}</span>
+          </div>
+        </div>
+        <div class="evento-row-actions">
+          <button class="btn btn-ghost btn-small" data-editar="${doc.id}">Editar</button>
+          <button class="btn btn-danger btn-small" data-eliminar="${doc.id}">Eliminar</button>
+        </div>
+      `;
+      listaAdminEl.appendChild(row);
+    });
+
+    listaAdminEl.querySelectorAll('[data-editar]').forEach(btn => {
+      btn.addEventListener('click', () => cargarEnFormulario(btn.dataset.editar));
+    });
+    listaAdminEl.querySelectorAll('[data-eliminar]').forEach(btn => {
+      btn.addEventListener('click', () => eliminarEvento(btn.dataset.eliminar));
+    });
+  }, (err) => {
+    console.error(err);
+    listaAdminEl.innerHTML = '<p class="empty-state">No se pudieron cargar los eventos.</p>';
+  });
+}
+
+async function cargarEnFormulario(id) {
+  const doc = await db.collection('eventos').doc(id).get();
+  if (!doc.exists) return;
+  const ev = doc.data();
+
+  document.getElementById('evento-id').value = id;
+  document.getElementById('f-titulo').value = ev.titulo || '';
+  document.getElementById('f-tag').value = ev.tag || '';
+  document.getElementById('f-fecha').value = ev.fecha || '';
+  document.getElementById('f-hora').value = ev.hora || '';
+  document.getElementById('f-ubicacion').value = ev.ubicacion || '';
+  document.getElementById('f-metaextra').value = ev.metaExtra || '';
+  document.getElementById('f-descripcion').value = ev.descripcion || '';
+
+  document.querySelector(`input[name="mediaTipo"][value="${ev.mediaTipo || 'imagen'}"]`).checked = true;
+  document.querySelector(`input[name="mediaTipo"][value="${ev.mediaTipo || 'imagen'}"]`).dispatchEvent(new Event('change'));
+
+  if (ev.mediaUrl) {
+    const contenedor = document.getElementById('media-preview');
+    contenedor.innerHTML = ev.mediaTipo === 'video'
+      ? `<video src="${ev.mediaUrl}" muted controls></video>`
+      : `<img src="${ev.mediaUrl}" alt="preview">`;
+    contenedor.classList.add('show');
+  }
+  if (ev.posterUrl) {
+    const contenedor = document.getElementById('poster-preview');
+    contenedor.innerHTML = `<img src="${ev.posterUrl}" alt="preview">`;
+    contenedor.classList.add('show');
+  }
+
+  formTitle.textContent = 'Editar evento';
+  submitBtn.textContent = 'Actualizar evento';
+  cancelEditBtn.style.display = 'inline-block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function eliminarEvento(id) {
+  if (!confirm('¿Eliminar este evento? Esta acción no se puede deshacer.')) return;
+  try {
+    await db.collection('eventos').doc(id).delete();
+    // Nota: el archivo en Cloudinary no se borra automáticamente (borrarlo
+    // requiere una petición firmada desde un servidor). No afecta el uso
+    // gratuito de tu cuenta a este volumen; puedes borrarlo a mano desde
+    // el Media Library de Cloudinary si quieres.
+  } catch (err) {
+    console.error(err);
+    alert('No se pudo eliminar el evento.');
+  }
+}
+
+function formatearFecha(fechaStr) {
+  if (!fechaStr) return '';
+  const [y, m, d] = fechaStr.split('-');
+  const meses = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+  return `${d} ${meses[parseInt(m, 10) - 1]} ${y}`;
+}
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+</script>
+
+</body>
+</html>

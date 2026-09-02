@@ -1,0 +1,1800 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HeForShe · Comunidad Estudiantil</title>
+<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   HeForShe · sistema de diseño
+   Paleta: rosa magenta + violeta (fiel a la marca original)
+   Tipografía: Fraunces (display) + Inter (texto) + Space Grotesk (etiquetas)
+   Firma visual: anillos entrelazados (unión He + She)
+============================================================ */
+
+:root{
+  --ink:#141414;
+  --ink-soft:#59535c;
+  --paper:#fffbfc;
+  --surface:#ffffff;
+  --blush:#ffe4ef;
+  --blush-2:#ffc9de;
+  --magenta:#ff2d76;
+  --magenta-deep:#c40a55;
+  --rose:#ff6fa0;
+  --violet:#141414;
+  --violet-deep:#0d0d0d;
+  --orchid:#050505;
+  --orchid-light:#ff4f93;
+  --line: rgba(12,12,12,0.1);
+  --shadow-soft: 0 24px 55px rgba(12,12,12,0.13);
+  --shadow-tight: 0 8px 20px rgba(12,12,12,0.09);
+  --radius-lg: 30px;
+  --radius-md: 20px;
+  --radius-sm: 12px;
+  --font-display:'Fraunces', serif;
+  --font-body:'Inter', sans-serif;
+  --font-label:'Space Grotesk', sans-serif;
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+
+html{ scroll-behavior:smooth; }
+
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  line-height:1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,h2,h3{ font-family: var(--font-display); color: var(--violet-deep); }
+
+a{ color:inherit; }
+
+img{ display:block; max-width:100%; }
+
+:focus-visible{
+  outline: 3px solid var(--orchid-light);
+  outline-offset: 3px;
+}
+
+.eyebrow{
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--magenta-deep);
+}
+
+/* ================= RING MARK (firma visual) ================= */
+.ring-mark{ display:inline-block; line-height:0; }
+.ring-mark svg{ display:block; }
+
+/* ================= HEADER / NAV ================= */
+header{
+  position: sticky;
+  top:0;
+  z-index: 50;
+  background: rgba(255,249,251,0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding: 0.9rem 2rem;
+  max-width: 1240px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.logo-container{
+  display:flex;
+  align-items:center;
+  gap:0.7rem;
+  text-decoration:none;
+  color:inherit;
+}
+
+.logo-img{
+  width: 44px;
+  height:44px;
+  object-fit:cover;
+  border-radius: 50%;
+  border: 2px solid var(--blush-2);
+}
+
+.logo-text{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: var(--violet-deep);
+  letter-spacing: 0.5px;
+}
+
+.nav-toggle{
+  display:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  width: 40px;
+  height:40px;
+  position:relative;
+  z-index: 60;
+}
+.nav-toggle span{
+  position:absolute;
+  left:8px;
+  right:8px;
+  height:2px;
+  background: var(--violet-deep);
+  border-radius:2px;
+  transition: transform .3s ease, opacity .3s ease, top .3s ease;
+}
+.nav-toggle span:nth-child(1){ top:13px; }
+.nav-toggle span:nth-child(2){ top:19px; }
+.nav-toggle span:nth-child(3){ top:25px; }
+.nav-toggle.open span:nth-child(1){ top:19px; transform: rotate(45deg); }
+.nav-toggle.open span:nth-child(2){ opacity:0; }
+.nav-toggle.open span:nth-child(3){ top:19px; transform: rotate(-45deg); }
+
+.nav-links{
+  display:flex;
+  list-style:none;
+  gap: 2.2rem;
+  font-family: var(--font-label);
+}
+
+.nav-links a{
+  text-decoration:none;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.3px;
+  position: relative;
+  padding-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::after{
+  content:"";
+  position:absolute;
+  left:0; bottom:0;
+  width:0%;
+  height:2px;
+  background: linear-gradient(90deg, var(--magenta), var(--orchid-light));
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover{ color: var(--magenta-deep); }
+.nav-links a:hover::after{ width:100%; }
+
+/* ================= BOTONES ================= */
+.cta-button, .instagram-btn, .evento-btn, .info-btn{
+  font-family: var(--font-label);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  border:none;
+  cursor:pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
+}
+
+.cta-button{
+  background: linear-gradient(135deg, var(--magenta), var(--rose));
+  color:#fff;
+  padding: 0.95rem 2.2rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  box-shadow: 0 14px 30px rgba(226,60,142,0.4);
+}
+.cta-button:hover{ transform: translateY(-3px); box-shadow: 0 18px 36px rgba(226,60,142,0.5); }
+
+/* ================= HERO ================= */
+#hero{
+  position: relative;
+  overflow:hidden;
+  min-height: 92vh;
+  display:flex;
+  align-items:center;
+  background: radial-gradient(circle at 15% 20%, #262626 0%, var(--violet-deep) 45%, #000000 100%);
+  color:#fff;
+}
+
+.hero-rings{
+  position:absolute;
+  right: -6%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(52vw, 620px);
+  opacity: 0.9;
+  pointer-events:none;
+}
+
+.hero-grain{
+  position:absolute;
+  inset:0;
+  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+  mix-blend-mode: overlay;
+  pointer-events:none;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  width:100%;
+}
+
+.hero-inner{
+  max-width: 640px;
+  animation: fadeInUp 1s ease;
+}
+
+.hero-eyebrow{
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #ffc2dc;
+  margin-bottom: 1.2rem;
+  display:block;
+}
+
+#hero h1{
+  font-family: var(--font-display);
+  color:#fff;
+  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  font-weight: 700;
+  line-height:1.15;
+  margin-bottom: 1.3rem;
+}
+
+#hero h1 em{
+  font-style: italic;
+  font-weight: 400;
+  color: #ff8fbd;
+}
+
+#hero p{
+  font-size: 1.15rem;
+  color: #ffe4ef;
+  margin-bottom: 2.2rem;
+  max-width: 480px;
+}
+
+@keyframes fadeInUp{
+  0%{ opacity:0; transform: translateY(24px); }
+  100%{ opacity:1; transform: translateY(0); }
+}
+
+/* ================= VIDEO ================= */
+#video-section{
+  padding: 0 1rem 4rem;
+  display:none;
+  background: var(--violet-deep);
+}
+.video-container{
+  position:relative;
+  padding-top:56.25%;
+  max-width: 900px;
+  margin:0 auto;
+}
+.video-container iframe{
+  position:absolute; inset:0; width:100%; height:100%; border-radius:20px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ================= NUESTRA MISIÓN ================= */
+#Mision{
+  padding: 4rem 1.5rem 1rem;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.mision-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem;
+}
+.mision-card{
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-tight);
+  padding: 2rem 1.6rem;
+  text-align:left;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.mision-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+.mision-icon{
+  display:block;
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  margin-bottom: 1.1rem;
+}
+.mision-card h3{
+  font-size: 1.05rem;
+  margin: 0 0 0.6rem;
+  color: var(--ink);
+}
+.mision-card p{
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+@media (max-width: 980px){
+  .mision-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px){
+  .mision-grid{ grid-template-columns: 1fr; }
+}
+
+/* ================= ¿POR QUÉ IMPORTA? ================= */
+#PorQueImporta{
+  padding: 1rem 1.5rem 4rem;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.porque-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.6rem;
+}
+.porque-card{
+  display:flex;
+  align-items:flex-start;
+  gap: 1.3rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-tight);
+  padding: 1.9rem 1.8rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.porque-card:hover{ transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+.porque-icon{
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  display:block;
+}
+.porque-text h3{
+  font-size: 1.05rem;
+  margin: 0.2rem 0 0.5rem;
+  color: var(--ink);
+}
+.porque-text p{
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+@media (max-width: 640px){
+  .porque-grid{ grid-template-columns: 1fr; }
+}
+
+/* ================= TEMPORADA / FESTIVIDADES ================= */
+#Temporada{
+  padding: 0 1.5rem 4rem;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.temporada-block{
+  display: none; /* JS muestra solo el bloque del mes actual */
+  position: relative;
+  overflow: hidden;
+  grid-template-columns: minmax(0, 40%) 1fr;
+  align-items: stretch;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.temporada-block:hover{ transform: translateY(-4px); }
+/* franja superior de color, cambia según el mes */
+.temporada-block::before{
+  content:"";
+  position:absolute;
+  top:0; left:0; right:0;
+  height:10px;
+  background: var(--temporada-accent, var(--rose));
+  z-index:2;
+}
+/* imagen grande a la izquierda */
+.temporada-icon{
+  display:block;
+  width:100%;
+  height:100%;
+  min-height: 300px;
+  object-fit: cover;
+}
+/* panel de texto a la derecha, con emoji gigante de fondo */
+.temporada-text{
+  position:relative;
+  overflow:hidden;
+  min-height: 300px;
+  box-sizing: border-box;
+  padding: 3rem 3.2rem 3rem 2.8rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  background: var(--temporada-bg, linear-gradient(135deg, var(--blush), var(--blush-2)));
+}
+/* emoji decorativo grande de fondo, cambia según el mes */
+.temporada-text::after{
+  content: var(--temporada-emoji, "");
+  position:absolute;
+  right:-0.4rem;
+  bottom:-1.6rem;
+  font-size:9rem;
+  line-height:1;
+  opacity:0.14;
+  pointer-events:none;
+}
+.temporada-text > *{ position:relative; z-index:1; }
+.temporada-text .eyebrow{
+  display:inline-block;
+  align-self:flex-start;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size:0.76rem;
+  font-weight:700;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  background: rgba(255,255,255,0.65);
+  color: var(--temporada-accent-text, var(--rose));
+  margin-bottom: 1rem;
+}
+.temporada-text h2{
+  margin: 0 0 0.9rem;
+  font-size: clamp(1.6rem, 2.8vw, 2.3rem);
+  line-height: 1.15;
+  color: var(--ink);
+}
+.temporada-text p{
+  margin:0;
+  max-width: 46ch;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.6;
+}
+
+/* --- Septiembre: Independencia de México --- */
+.temporada-block[data-month="9"]{
+  --temporada-accent: linear-gradient(90deg, #006341 33%, #ffffff 33% 66%, #ce1126 66%);
+  --temporada-accent-text: #006341;
+  --temporada-bg: linear-gradient(135deg, #eafaf0, #fff9e9 55%, #fdeceb);
+  --temporada-emoji: "🇲🇽";
+}
+
+/* --- Octubre: Cáncer de mama --- */
+.temporada-block[data-month="10"]{
+  --temporada-accent: linear-gradient(90deg, #ff8fb3, #e6317f);
+  --temporada-accent-text: #d81b6a;
+  --temporada-bg: linear-gradient(135deg, #fff0f6, #ffe1ee);
+  --temporada-emoji: "🎗️";
+}
+
+/* --- Diciembre: Navidad --- */
+.temporada-block[data-month="12"]{
+  --temporada-accent: linear-gradient(90deg, #1e6b3a, #c81d25, #1e6b3a);
+  --temporada-accent-text: #1e6b3a;
+  --temporada-bg: linear-gradient(135deg, #fdece7, #eafaf0);
+  --temporada-emoji: "🎄";
+}
+
+/* --- Enero: Año nuevo --- */
+.temporada-block[data-month="1"]{
+  --temporada-accent: linear-gradient(90deg, #d4af37, #6a4fb6, #d4af37);
+  --temporada-accent-text: #9c7a1a;
+  --temporada-bg: linear-gradient(135deg, #fdf6e3, #f2effc);
+  --temporada-emoji: "✨";
+}
+
+/* --- Febrero: San Valentín --- */
+.temporada-block[data-month="2"]{
+  --temporada-accent: linear-gradient(90deg, #ff6f91, #ff2d55);
+  --temporada-accent-text: #e0245e;
+  --temporada-bg: linear-gradient(135deg, #ffe1ea, #ffd0dd);
+  --temporada-emoji: "💗";
+}
+
+@media (max-width: 720px){
+  .temporada-block{ grid-template-columns: 1fr; }
+  .temporada-icon{ min-height:0; aspect-ratio: 16/9; }
+  .temporada-text{ min-height:0; padding: 2.2rem 1.8rem 2.6rem; text-align:left; }
+  .temporada-text::after{ font-size:6rem; }
+}
+
+/* ================= PROMO EVENTO (video) ================= */
+.evento-promo{
+  padding: 4.5rem 1.5rem;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.evento-promo-inner{
+  background: var(--ink);
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  display:grid;
+  grid-template-columns: 300px 1fr;
+  align-items:stretch;
+  box-shadow: var(--shadow-soft);
+}
+.evento-promo-video{ position:relative; aspect-ratio:9/16; min-height: 400px; background:#000; }
+.evento-promo-video iframe, .evento-promo-video video{ position:absolute; inset:0; width:100%; height:100%; border:none; object-fit:cover; }
+.evento-promo-text{
+  padding: 3rem 2.6rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  color:#fff;
+}
+.evento-promo-text .eyebrow{ color: var(--rose); }
+.evento-promo-text h2{
+  color:#fff;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  margin: 0.7rem 0 1rem;
+  line-height:1.2;
+}
+.evento-promo-text p{ color: #e7d9df; margin-bottom:1.8rem; font-size:0.98rem; }
+.evento-promo-text .cta-button{ align-self:flex-start; }
+
+@media (max-width: 780px){
+  .evento-promo-inner{ grid-template-columns: 1fr; }
+  .evento-promo-video{ max-width: 320px; min-height: 568px; margin: 0 auto; }
+  .evento-promo-text{ padding: 2.2rem 1.8rem 2.6rem; }
+}
+
+/* ================= NOSOTROS ================= */
+#Nosotros{
+  padding: 6rem 2rem;
+  max-width: 1240px;
+  margin: 0 auto;
+}
+
+.section-head{
+  text-align:center;
+  max-width: 640px;
+  margin: 0 auto 3.2rem;
+}
+
+.section-head .eyebrow{ display:block; margin-bottom:0.6rem; }
+
+#Nosotros h2, #PoderosasMX h2, #InspiracionMX h2{
+  font-size: clamp(1.9rem, 3vw, 2.6rem);
+  letter-spacing: 0.3px;
+}
+
+.Nosotros-grid{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.Nosotros-card{
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  box-shadow: var(--shadow-tight);
+  border: 1px solid var(--line);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  display:flex;
+  flex-direction:column;
+}
+
+.Nosotros-card:hover{
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-soft);
+}
+
+.card-media{ position:relative; aspect-ratio: 16/10; overflow:hidden; }
+.card-media img{ width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease; }
+.Nosotros-card:hover .card-media img{ transform: scale(1.06); }
+
+.card-tag{
+  position:absolute;
+  top: 14px; left:14px;
+  font-family: var(--font-label);
+  font-size: 0.68rem;
+  font-weight:700;
+  letter-spacing: 1.5px;
+  text-transform:uppercase;
+  color: var(--violet-deep);
+  background: rgba(255,255,255,0.92);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+}
+
+.card-body{ padding: 1.6rem 1.8rem 1.9rem; }
+
+#Nosotros h3{ font-size: 1.35rem; margin-bottom: 0.4rem; }
+
+.descripcion{ color: var(--ink-soft); margin-bottom: 1.1rem; font-size: 0.98rem; }
+
+.info-btn{
+  background: transparent;
+  color: var(--magenta-deep);
+  border: 2px solid var(--blush-2);
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+.info-btn:hover{ background: var(--blush); border-color: var(--magenta); transform: translateY(-2px); }
+
+.info-text{
+  max-height:0;
+  overflow:hidden;
+  opacity:0;
+  transition: max-height 0.6s ease, opacity 0.5s ease, margin 0.5s ease;
+  border-left: 3px solid var(--blush-2);
+  margin-top:0;
+  padding-left: 0;
+}
+.info-text.active{
+  max-height: 2400px;
+  opacity:1;
+  margin-top: 1.4rem;
+  padding-left: 1.1rem;
+}
+.info-text h4{ color: var(--orchid); font-family: var(--font-label); font-size: 0.95rem; letter-spacing:0.3px; margin-top:1.1rem; }
+.info-text h4:first-child{ margin-top:0; }
+.info-text p{ margin-top:0.5rem; color: var(--ink-soft); font-size: 0.95rem; }
+.info-text ul{ padding-left:1.2rem; margin-top:0.5rem; color: var(--ink-soft); font-size:0.95rem; }
+.info-text ul li{ margin-bottom:0.35rem; }
+
+/* ================= PODEROSAS MX (carrusel horizontal) ================= */
+#PoderosasMX{
+  padding: 6rem 2rem;
+  max-width: 1240px;
+  margin:0 auto;
+  text-align:center;
+  position:relative;
+}
+
+.track-wrap{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:1.2rem;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.track-nav{
+  flex-shrink:0;
+  width:46px; height:46px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size:1.1rem;
+  cursor:pointer;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease;
+}
+.track-nav:hover{ background: var(--blush); border-color: var(--blush-2); transform: translateY(-2px); }
+
+.track{
+  display:flex;
+  gap: 1.6rem;
+  overflow-x:auto;
+  scroll-snap-type: x mandatory;
+  padding: 0.4rem 0.2rem 1.4rem;
+  scrollbar-width: none;
+  flex:1;
+}
+.track::-webkit-scrollbar{ display:none; }
+
+.poderosa-card{
+  position:relative;
+  flex: 0 0 250px;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-md);
+  overflow:hidden;
+  scroll-snap-align:center;
+  box-shadow: var(--shadow-tight);
+  transition: box-shadow 0.3s ease;
+  cursor:pointer;
+}
+.poderosa-card:hover{ box-shadow: var(--shadow-soft); }
+.poderosa-card img{ width:100%; height:100%; object-fit:cover; transition: transform 0.5s ease; display:block; }
+.poderosa-card:hover img{ transform: scale(1.06); }
+.poderosa-overlay{
+  position:absolute; inset:auto 0 0 0;
+  padding: 1.8rem 1.3rem 1.3rem;
+  background: linear-gradient(to top, rgba(13,13,13,0.92) 8%, rgba(13,13,13,0) 100%);
+  text-align:left;
+}
+.poderosa-overlay h3{ color:#fff; font-size:1.08rem; margin-bottom:0.4rem; }
+.poderosa-overlay p{ color:#f6dbe8; font-size:0.83rem; line-height:1.45; }
+
+/* modal: foto grande + texto abajo */
+.poderosa-modal{
+  position:fixed;
+  inset:0;
+  background: rgba(13,13,13,0.75);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding: 2rem;
+  z-index: 200;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity 0.3s ease;
+}
+.poderosa-modal.active{ opacity:1; pointer-events:auto; }
+.poderosa-modal-inner{
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  max-width: 420px;
+  width:100%;
+  max-height: 88vh;
+  overflow-y:auto;
+  position:relative;
+  transform: scale(0.94);
+  transition: transform 0.3s ease;
+}
+.poderosa-modal.active .poderosa-modal-inner{ transform: scale(1); }
+.poderosa-modal-photo{ aspect-ratio: 3/4; background: var(--ink); }
+.poderosa-modal-photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+.poderosa-modal-text{ padding: 1.8rem 1.8rem 2.1rem; text-align:left; }
+.poderosa-modal-text h3{ font-size:1.2rem; margin-bottom:0.6rem; }
+.poderosa-modal-text p{ color: var(--ink-soft); font-size:0.98rem; line-height:1.5; }
+.poderosa-modal-close{
+  position:absolute;
+  top:0.8rem; right:0.8rem;
+  width:36px; height:36px;
+  border-radius:50%;
+  border:none;
+  background: rgba(13,13,13,0.55);
+  color:#fff;
+  font-size:1.4rem;
+  cursor:pointer;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  line-height:1;
+  transition: background 0.25s ease;
+}
+.poderosa-modal-close:hover{ background: var(--magenta); }
+
+@media (max-width: 640px){
+  .poderosa-card{ flex-basis:200px; }
+  .track-nav{ display:none; }
+}
+
+/* ================= INSPIRACIÓN (spotlight + selector) ================= */
+#InspiracionMX{
+  padding: 6rem 2rem;
+  max-width:1240px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.spotlight-card{
+  max-width: 960px;
+  min-height: 420px;
+  margin: 0 auto 2.6rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow:hidden;
+  display:grid;
+  grid-template-columns: 320px 1fr;
+  box-shadow: var(--shadow-tight);
+  text-align:left;
+}
+.spotlight-photo{ position:relative; overflow:hidden; background: var(--ink); min-height: 420px; }
+.spotlight-photo img{ width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.35s ease; position:absolute; inset:0; }
+.spotlight-text{
+  padding: 2.8rem 3rem 2.8rem 2.4rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  box-sizing: border-box;
+  min-height: 420px;
+}
+.spotlight-text .quote-mark{
+  font-family: var(--font-display);
+  font-size: 3.4rem;
+  color: var(--blush-2);
+  line-height:1;
+  margin-bottom: 0.3rem;
+}
+.spotlight-text p{
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.28rem;
+  color: var(--ink);
+  line-height:1.45;
+  margin-bottom: 1.5rem;
+}
+.spotlight-text h3{ font-size:1.1rem; margin-bottom:0.25rem; }
+.spotlight-role{
+  font-family: var(--font-label);
+  font-size:0.76rem;
+  letter-spacing:0.6px;
+  text-transform:uppercase;
+  color: var(--magenta-deep);
+}
+
+.spotlight-avatars{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap: 1.1rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.spotlight-avatar{
+  width:60px; height:60px;
+  border-radius:50%;
+  padding:0;
+  border: 3px solid transparent;
+  background:none;
+  cursor:pointer;
+  overflow:hidden;
+  opacity:0.5;
+  transition: opacity 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+.spotlight-avatar img{ width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+.spotlight-avatar:hover{ opacity:0.8; transform: translateY(-3px); }
+.spotlight-avatar.active{ opacity:1; border-color: var(--magenta); transform: translateY(-3px); }
+
+@media (max-width: 768px){
+  .spotlight-card{ grid-template-columns: 1fr; min-height: 0; }
+  .spotlight-photo{ aspect-ratio: 16/10; min-height: 0; position:relative; }
+  .spotlight-photo img{ position:static; }
+  .spotlight-text{ padding: 2.2rem 1.8rem 2.4rem; min-height: 0; }
+}
+
+/* ================= CONTRIBUIR (carrusel de ideas) ================= */
+#Contribuir{
+  padding: 5.5rem 2rem 6rem;
+  max-width: 1240px;
+  margin: 0 auto;
+  text-align:center;
+  background: var(--blush);
+  border-radius: var(--radius-lg);
+}
+
+.contribuir-card{
+  flex: 0 0 230px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 2.2rem 1.6rem;
+  scroll-snap-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap: 1rem;
+  text-align:left;
+}
+.contribuir-icon{ font-size:2rem; }
+.contribuir-card p{ color: var(--ink); font-size:0.96rem; line-height:1.5; }
+
+@media (max-width: 640px){
+  .contribuir-card{ flex-basis:200px; }
+}
+
+/* ================= ÚNETE (CTA WhatsApp) ================= */
+#Unete{
+  background: var(--ink);
+  padding: 5.5rem 2rem;
+  margin: 5rem auto;
+  max-width: 1240px;
+  border-radius: var(--radius-lg);
+}
+.unete-inner{ max-width: 620px; margin:0 auto; text-align:center; }
+#Unete .eyebrow{ display:block; margin-bottom:0.8rem; color: var(--rose); }
+#Unete h2{ color:#fff; font-size: clamp(1.7rem, 3vw, 2.3rem); margin-bottom:1rem; }
+#Unete p{ color:#e7d9df; margin-bottom:2.2rem; font-size:1.02rem; }
+
+/* ================= INSTAGRAM ================= */
+#Instagram{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding: 3.5rem 2rem 4.5rem;
+  max-width: 820px;
+  margin: 1rem auto 4rem;
+  text-align:center;
+}
+
+#Instagram p{
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  font-weight:700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 1.2rem;
+}
+
+.instagram-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:0.5rem;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.95rem;
+  background: transparent;
+  color: var(--magenta-deep);
+  border-radius: 999px;
+  border: 1.5px solid var(--blush-2);
+}
+.instagram-btn:hover{ border-color: var(--magenta); background: var(--blush); transform: translateY(-2px); }
+
+/* ================= FOOTER ================= */
+footer{
+  background: linear-gradient(135deg, var(--violet-deep), var(--orchid));
+  color:#fff;
+  text-align:center;
+  padding: 2.6rem 2rem;
+  font-family: var(--font-label);
+}
+footer p:first-child{ font-size:1.05rem; font-weight:600; margin-bottom:0.3rem; }
+footer p:last-child{ opacity:0.85; font-size:0.9rem; }
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px){
+  .Nosotros-grid{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px){
+  .nav-toggle{ display:block; }
+  .nav-links{
+    position:absolute;
+    top: 100%;
+    left:0; right:0;
+    background: var(--paper);
+    flex-direction:column;
+    align-items:flex-start;
+    gap: 0;
+    max-height:0;
+    overflow:hidden;
+    transition: max-height 0.4s ease;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-links.open{ max-height: 320px; }
+  .nav-links li{ width:100%; }
+  .nav-links a{ display:block; padding: 0.9rem 2rem; width:100%; }
+  .nav-links a::after{ display:none; }
+
+  .hero-rings{ opacity:0.35; width: 80vw; right:-20%; }
+  #hero{ min-height: auto; padding: 2rem 0 3rem; }
+}
+
+@media (max-width:480px){
+  #hero h1{ font-size:1.9rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="./" class="logo-container">
+      <img src="img/heforshe-logo-united-nations-headquarters-gender-equality-un-women-emma-watson.jpg" alt="Logo HeForShe" class="logo-img">
+      <span class="logo-text">HeForShe</span>
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="#hero">Inicio</a></li>
+      <li><a href="#Nosotros">Sobre nosotros</a></li>
+      <li><a href="soluciones.html">Soluciones</a></li>
+      <li><a href="#Instagram">Instagram</a></li>
+      <li><a href="eventos.html">Eventos</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-grain"></div>
+    <div class="ring-mark hero-rings">
+      <svg viewBox="0 0 400 300" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="150" cy="150" r="120" fill="none" stroke="#ff8dc4" stroke-width="2" opacity="0.55"/>
+        <circle cx="250" cy="150" r="120" fill="none" stroke="#4a4a4a" stroke-width="2" opacity="0.55"/>
+        <circle cx="150" cy="150" r="120" fill="#ff4f8b" opacity="0.06"/>
+        <circle cx="250" cy="150" r="120" fill="#2a2a2a" opacity="0.08"/>
+      </svg>
+    </div>
+    <div class="hero-content">
+      <div class="hero-inner">
+        <span class="hero-eyebrow">Grupo estudiantil HeForShe</span>
+        <h1>Impulsamos la equidad de género desde la comunidad estudiantil 🩷</h1>
+        <p>Lo que compartimos es más grande que lo que nos divide</p>
+        <button class="cta-button" onclick="toggleVideo(this)">Ver más sobre nosotros</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promo evento — se llena solo con el próximo evento; se oculta si no hay ninguno -->
+  <section class="evento-promo" id="proximo-evento" style="display:none;">
+    <div class="evento-promo-inner" id="evento-promo-inner">
+      <!-- contenido generado por JS -->
+    </div>
+  </section>
+
+  <!-- Nuestra misión -->
+  <section id="Mision">
+    <div class="section-head">
+      <span class="eyebrow">🩷</span>
+      <h2>Nuestra misión</h2>
+    </div>
+    <div class="mision-grid">
+
+      <div class="mision-card">
+        <img class="mision-icon" src="img/mision-icono-1.png" alt="Ícono nuestra misión">
+        <h3>Nuestra misión</h3>
+        <p>Promover la igualdad de género mediante acciones, educación y participación dentro de nuestra comunidad universitaria.</p>
+      </div>
+
+      <div class="mision-card">
+        <img class="mision-icon" src="img/mision-icono-2.png" alt="Ícono nuestra visión">
+        <h3>Nuestra visión</h3>
+        <p>Construir una comunidad inclusiva, segura y libre de violencia donde todas las personas tengan las mismas oportunidades.</p>
+      </div>
+
+      <div class="mision-card">
+        <img class="mision-icon" src="img/mision-icono-3.png" alt="Ícono Cómo HeForShe CUU">
+        <h3>Cómo HeForShe CUU</h3>
+        <p>Adaptar el movimiento global de HeForShe a nuestra universidad mediante campañas, talleres y actividades.</p>
+      </div>
+
+      <div class="mision-card">
+        <img class="mision-icon" src="img/mision-icono-4.png" alt="Ícono nuestro compromiso">
+        <h3>Nuestro compromiso</h3>
+        <p>Escuchar, aprender y actuar para generar un cambio positivo dentro y fuera del campus.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ¿Por qué importa la igualdad de género? -->
+  <section id="PorQueImporta">
+    <div class="section-head">
+      <span class="eyebrow">🩷</span>
+      <h2>¿Por qué importa la igualdad de género?</h2>
+    </div>
+    <div class="porque-grid">
+
+      <div class="porque-card">
+        <img class="porque-icon" src="img/porque-icono-1.png" alt="Ícono más oportunidades">
+        <div class="porque-text">
+          <h3>Más oportunidades</h3>
+          <p>Cuando eliminamos las barreras de género, más personas acceden a educación, empleo y liderazgo, sin importar su identidad.</p>
+        </div>
+      </div>
+
+      <div class="porque-card">
+        <img class="porque-icon" src="img/porque-icono-2.png" alt="Ícono rompe estereotipos">
+        <div class="porque-text">
+          <h3>Rompe estereotipos</h3>
+          <p>Cuestionar los roles tradicionales nos permite ser quienes somos realmente, sin límites impuestos por el género.</p>
+        </div>
+      </div>
+
+      <div class="porque-card">
+        <img class="porque-icon" src="img/porque-icono-3.png" alt="Ícono comunidades más seguras">
+        <div class="porque-text">
+          <h3>Comunidades más seguras</h3>
+          <p>La igualdad reduce la violencia y la discriminación, creando espacios donde todas las personas viven con confianza y respeto.</p>
+        </div>
+      </div>
+
+      <div class="porque-card">
+        <img class="porque-icon" src="img/porque-icono-4.png" alt="Ícono beneficia a todas las personas">
+        <div class="porque-text">
+          <h3>Beneficia a todas las personas</h3>
+          <p>La equidad de género no es solo un tema de mujeres: mejora la salud, las relaciones y la calidad de vida de toda la comunidad.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Sección de temporada / festividades (cambia según el mes) -->
+  <section id="Temporada">
+
+    <!-- Septiembre: México sabe a igualdad -->
+    <div class="temporada-block" data-month="9">
+      <img class="temporada-icon" src="img/temporada-septiembre.png" alt="Independencia de México">
+      <div class="temporada-text">
+        <span class="eyebrow">Septiembre</span>
+        <h2>México sabe a igualdad</h2>
+        <p>Celebramos las fiestas patrias impulsando una igualdad que también se vive en la mesa, la familia y la comunidad. ¡Búscanos en nuestras actividades de este mes!</p>
+      </div>
+    </div>
+
+    <!-- Octubre: Día Mundial de la lucha contra el cáncer de mama -->
+    <div class="temporada-block" data-month="10">
+      <img class="temporada-icon" src="img/temporada-octubre.png" alt="Mes de prevención del cáncer de mama">
+      <div class="temporada-text">
+        <span class="eyebrow">Octubre</span>
+        <h2>Cuídate, revísate, comparte</h2>
+        <p>En el mes de la lucha contra el cáncer de mama te invitamos a realizarte tu autoexploración y a acompañar a las mujeres de tu vida en el camino de la prevención.</p>
+      </div>
+    </div>
+
+    <!-- Diciembre: Navidad e igualdad -->
+    <div class="temporada-block" data-month="12">
+      <img class="temporada-icon" src="img/temporada-diciembre.png" alt="Navidad e igualdad">
+      <div class="temporada-text">
+        <span class="eyebrow">Diciembre</span>
+        <h2>Una Navidad para todas y todos</h2>
+        <p>En estas fiestas recordemos que la igualdad también se construye en casa: repartamos las tareas, los abrazos y el amor sin distinción de género.</p>
+      </div>
+    </div>
+
+    <!-- Enero: mismo compromiso en el nuevo año -->
+    <div class="temporada-block" data-month="1">
+      <img class="temporada-icon" src="img/temporada-enero.png" alt="Año nuevo">
+      <div class="temporada-text">
+        <span class="eyebrow">Enero</span>
+        <h2>Un nuevo año, el mismo compromiso</h2>
+        <p>Arrancamos el año renovando nuestro compromiso con la igualdad: en casa, en la escuela y en cada espacio que compartimos.</p>
+      </div>
+    </div>
+
+    <!-- Febrero: San Valentín -->
+    <div class="temporada-block" data-month="2">
+      <img class="temporada-icon" src="img/temporada-febrero.png" alt="San Valentín">
+      <div class="temporada-text">
+        <span class="eyebrow">Febrero</span>
+        <h2>El amor también es igualdad</h2>
+        <p>Este mes del amor y la amistad, recordamos que las relaciones sanas se construyen con respeto, equidad y consentimiento.</p>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Video -->
+  <section id="video-section">
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/j6FROLKtD1Q" title="HeForShe Video" allowfullscreen></iframe>
+    </div>
+  </section>
+
+  <!-- Sobre Nosotros -->
+  <section id="Nosotros">
+    <div class="section-head">
+      <span class="eyebrow">Quiénes somos</span>
+      <h2>SOBRE NOSOTROS</h2>
+    </div>
+    <div class="Nosotros-grid">
+
+      <!-- Card 1: Movimiento HeForShe -->
+      <div class="Nosotros-card">
+        <div class="card-media">
+          <img src="img/HeforShe_Logo_1200x628.jpg" alt="Movimiento HeForShe">
+          <span class="card-tag">Movimiento global</span>
+        </div>
+        <div class="card-body">
+          <h3>Movimiento HeForShe</h3>
+          <p class="descripcion">Compromiso global por la igualdad</p>
+          <button class="info-btn">Ver más información</button>
+          <div class="info-text">
+            <h4>¿Qué es HeForShe?</h4>
+            <p>HeForShe es un movimiento global de igualdad de género impulsado por ONU Mujeres, creado para involucrar a hombres y niños en la lucha por la equidad. Su objetivo principal es demostrar que la igualdad de género es una responsabilidad compartida y no solo un asunto de mujeres. Desde su lanzamiento en 2014, se ha expandido a más de 190 países.</p>
+
+            <h4>Objetivos del movimiento</h4>
+            <ul>
+              <li>Promover la igualdad de oportunidades entre hombres y mujeres en todos los ámbitos.</li>
+              <li>Involucrar a hombres como aliados activos en la lucha por la equidad.</li>
+              <li>Generar conciencia sobre la discriminación y violencia de género.</li>
+              <li>Crear políticas y campañas educativas en escuelas, universidades y empresas.</li>
+              <li>Fomentar liderazgo inclusivo y empoderamiento femenino.</li>
+            </ul>
+
+            <h4>Educación y sensibilización</h4>
+            <p>El movimiento desarrolla talleres, charlas, webinars y campañas educativas que buscan transformar la percepción social sobre los roles de género. Cada participante aprende cómo reconocer y cuestionar estereotipos, cómo actuar contra la violencia de género y cómo convertirse en un agente de cambio en su comunidad.</p>
+
+            <h4>Impacto y resultados</h4>
+            <ul>
+              <li>Participación activa de más de 10 millones de hombres y niños.</li>
+              <li>Implementación de programas educativos en más de 50 mil escuelas.</li>
+              <li>Alianzas con empresas para políticas inclusivas y equidad salarial.</li>
+              <li>Generación de campañas de concientización con impacto global.</li>
+            </ul>
+
+            <h4>Cómo puedes participar</h4>
+            <ul>
+              <li>Asistir a talleres y seminarios en tu ciudad o en línea.</li>
+              <li>Difundir contenido educativo en redes sociales y comunidades.</li>
+              <li>Organizar campañas o charlas en tu entorno laboral o académico.</li>
+              <li>Conectar con líderes y voluntarios de HeForShe a nivel local y global.</li>
+            </ul>
+
+            <h4>Conclusión</h4>
+            <p>HeForShe busca un cambio cultural profundo: hombres y mujeres trabajando juntos para crear un mundo donde la igualdad no sea un ideal, sino una práctica cotidiana en todas las áreas de la vida. Al involucrarte, te conviertes en un catalizador de cambio real.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: Nuestro Grupo Estudiantil -->
+      <div class="Nosotros-card">
+        <div class="card-media">
+          <img src="img/heforsheorges.webp" alt="Nuestra comunidad por la igualdad">
+          <span class="card-tag">Comunidad</span>
+        </div>
+        <div class="card-body">
+          <h3>Nuestro Grupo Estudiantil</h3>
+          <p class="descripcion">Impulsamos la equidad de género desde la comunidad estudiantil</p>
+          <button class="info-btn">Ver más información</button>
+          <div class="info-text">
+            <h4>Quiénes somos</h4>
+            <p>Nuestro grupo es una comunidad comprometida con la promoción de la igualdad entre mujeres y hombres, un espacio donde el respeto, la inclusión y la equidad de oportunidades son valores fundamentales que guían cada una de nuestras acciones. Nos esforzamos por generar conciencia y fomentar el diálogo abierto, invitando a todas las personas a participar activamente en la construcción de un entorno más justo y equitativo dentro de nuestra universidad.</p>
+
+            <h4>Nuestra misión</h4>
+            <p>Creemos firmemente que cada miembro de nuestra comunidad merece desarrollarse plenamente, sin verse limitado por estereotipos de género ni discriminación de ningún tipo. Por ello, llevamos a cabo diversas iniciativas, talleres y actividades que buscan sensibilizar, educar y empoderar, promoviendo la colaboración y el entendimiento entre todos.</p>
+
+            <h4>Qué hacemos</h4>
+            <ul>
+              <li>Organizamos talleres educativos sobre igualdad de género y derechos humanos.</li>
+              <li>Llevamos a cabo campañas de sensibilización para fomentar la inclusión y el respeto.</li>
+              <li>Desarrollamos proyectos de mentoría y liderazgo inclusivo dentro de la universidad.</li>
+              <li>Realizamos seminarios y encuentros para compartir experiencias y buenas prácticas.</li>
+            </ul>
+
+            <h4>Nuestro impacto</h4>
+            <p>En nuestro grupo trabajamos juntos para crear un espacio seguro y respetuoso, donde la diversidad sea celebrada y las oportunidades sean accesibles para todos. Queremos que cada persona sienta que su voz es escuchada, que sus ideas importan y que puede contribuir a transformar nuestra comunidad universitaria en un lugar donde la igualdad no sea solo un ideal, sino una práctica cotidiana.</p>
+
+            <h4>Cómo sumarte</h4>
+            <p>Cada persona puede participar activamente: promoviendo la equidad en la escuela o la universidad, colaborando en talleres, compartiendo recursos y educando sobre igualdad de género. Nuestro objetivo es que la acción individual se transforme en un cambio colectivo que beneficie a toda la comunidad.</p>
+
+            <h4>Conclusión</h4>
+            <p>Formar parte de nuestro grupo significa ser parte de un movimiento que demuestra que la igualdad de género no es solo un concepto, sino una práctica que todos podemos implementar día a día, contribuyendo a una comunidad universitaria más justa, respetuosa e inclusiva.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Emma Watson -->
+      <div class="Nosotros-card">
+        <div class="card-media">
+          <img src="img/emma_Watson_movimiento_HeForShe.jpg" alt="Emma Watson">
+          <span class="card-tag">Embajadora</span>
+        </div>
+        <div class="card-body">
+          <h3>Emma Watson en HeForShe</h3>
+          <p class="descripcion">Voz joven del feminismo</p>
+          <button class="info-btn">Ver más información</button>
+          <div class="info-text">
+            <h4>Embajadora global</h4>
+            <p>Emma Watson es embajadora de HeForShe desde su lanzamiento. Ha utilizado su visibilidad para promover la equidad de género, enfatizando que los hombres también son parte activa de esta lucha. Sus discursos en Naciones Unidas han inspirado a jóvenes de todo el mundo a actuar por la igualdad.</p>
+
+            <h4>Iniciativas y logros</h4>
+            <ul>
+              <li>Participación en conferencias internacionales sobre igualdad y derechos humanos.</li>
+              <li>Campañas de sensibilización sobre estereotipos de género.</li>
+              <li>Promoción de programas educativos que incluyen a hombres y mujeres por igual.</li>
+              <li>Colaboración con organizaciones para crear políticas inclusivas en escuelas y empresas.</li>
+            </ul>
+
+            <h4>Mensaje central</h4>
+            <p>Emma enfatiza que la igualdad de género requiere compromiso colectivo. No basta con hablar del tema; es necesario actuar en todos los niveles de la sociedad, desde la educación hasta el liderazgo corporativo y político.</p>
+
+            <h4>Impacto social</h4>
+            <p>Gracias a su influencia, miles de jóvenes y adultos han organizado talleres, campañas y grupos de discusión en sus comunidades. Cada acción contribuye a un cambio tangible, fomentando un entorno más inclusivo y respetuoso para todos.</p>
+
+            <h4>Cómo puedes inspirarte</h4>
+            <ul>
+              <li>Organiza actividades educativas sobre igualdad de género en tu entorno.</li>
+              <li>Comparte información confiable y campañas de HeForShe en redes sociales.</li>
+              <li>Conviértete en un aliado activo cuestionando roles y estereotipos.</li>
+              <li>Participa en debates, foros y charlas para aprender y educar a otros.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Unidos por equidad -->
+      <div class="Nosotros-card">
+        <div class="card-media">
+          <img src="img/istockphoto-1451656697-612x612.jpg" alt="Unidos por equidad">
+          <span class="card-tag">Acción colectiva</span>
+        </div>
+        <div class="card-body">
+          <h3>Unidos por equidad</h3>
+          <p class="descripcion">Personas unidas por equidad</p>
+          <button class="info-btn">Ver más información</button>
+          <div class="info-text">
+            <h4>Acción colectiva</h4>
+            <p>HeForShe busca que cada persona se convierta en un agente de cambio. La unión de esfuerzos de hombres y mujeres permite desarrollar proyectos locales y globales que promueven la igualdad en todos los ámbitos: educación, trabajo, familia y comunidad.</p>
+
+            <h4>Programas y actividades</h4>
+            <ul>
+              <li>Talleres educativos sobre igualdad de género.</li>
+              <li>Campañas de sensibilización comunitaria.</li>
+              <li>Proyectos de mentoría y liderazgo inclusivo.</li>
+              <li>Seminarios en línea y presenciales para compartir experiencias.</li>
+            </ul>
+
+            <h4>Impacto tangible</h4>
+            <p>Desde 2014, se han registrado miles de actividades alrededor del mundo:</p>
+            <ul>
+              <li>Más de 50 mil escuelas implementando programas educativos de igualdad.</li>
+              <li>Colaboraciones con empresas que crean políticas inclusivas y equitativas.</li>
+              <li>Eventos y charlas que involucran a comunidades enteras en acciones positivas.</li>
+              <li>Creación de redes de apoyo entre líderes y participantes de distintos países.</li>
+            </ul>
+
+            <h4>Cómo participar</h4>
+            <p>Cada persona puede actuar desde su entorno: promover la equidad en la escuela, el trabajo o la comunidad, organizar talleres, compartir recursos y educar sobre igualdad de género. La idea es que la acción individual se transforme en un cambio colectivo que perdure.</p>
+
+            <h4>Conclusión</h4>
+            <p>Al involucrarte en HeForShe, te conviertes en parte de un movimiento global que demuestra que la igualdad de género no es un concepto abstracto, sino una práctica que todos podemos implementar día a día, contribuyendo a sociedades más justas y equitativas.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5: Proximos eventos -->
+      <div class="Nosotros-card">
+        <div class="card-media">
+          <img src="img/Proximos_eventos_HeForShe.png" alt="Próximos eventos">
+          <span class="card-tag">Agenda</span>
+        </div>
+        <div class="card-body">
+          <h3>Próximos eventos</h3>
+          <p class="descripcion">Aquí puedes revisar eventos futuros</p>
+          <a href="eventos.html"><button class="info-btn">Ver más información</button></a>
+        </div>
+      </div>
+
+      <!-- Card 6: Pagina oficial -->
+      <div class="Nosotros-card">
+        <div class="card-media">
+          <img src="img/2015-10-19_03-10-42___3988.png" alt="Página Oficial">
+          <span class="card-tag">Sitio oficial</span>
+        </div>
+        <div class="card-body">
+          <h3>Página oficial</h3>
+          <p class="descripcion">También puedes visitar su página oficial</p>
+          <a href="https://www.heforshe.org/en" target="_blank" rel="noopener noreferrer">
+            <button class="info-btn">Ver más información</button>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- mexicanos poderosos -->
+  <section id="PoderosasMX">
+    <div class="section-head">
+      <span class="eyebrow">Referentes en México</span>
+      <h2>Personas Poderosas por la Igualdad en México</h2>
+    </div>
+    <div class="track-wrap">
+      <button class="track-nav prev" data-target="poderosasTrack" aria-label="Anterior">&#10094;</button>
+      <div class="track" id="poderosasTrack">
+
+        <div class="poderosa-card">
+          <img src="img/IMG_3781.jpg" alt="Ana Güezmes">
+          <div class="poderosa-overlay">
+            <h3>Ana Güezmes</h3>
+            <p>Experta en políticas de igualdad y empoderamiento económico de mujeres.</p>
+          </div>
+        </div>
+
+        <div class="poderosa-card">
+          <img src="img/190925-JULIETA-FIERRO-1-ok.jpg" alt="Julieta Fierro">
+          <div class="poderosa-overlay">
+            <h3>Julieta Fierro</h3>
+            <p>Promueve la educación y empoderamiento de niñas y jóvenes en ciencia.</p>
+          </div>
+        </div>
+
+        <div class="poderosa-card">
+          <img src="img/ca-foto-3.png" alt="Lydia Cacho">
+          <div class="poderosa-overlay">
+            <h3>Lydia Cacho</h3>
+            <p>Periodista y escritora enfocada en derechos de las mujeres y libertad de expresión.</p>
+          </div>
+        </div>
+
+        <div class="poderosa-card">
+          <img src="img/marcelalagarde04comsocsenado.jpg" alt="Marcela Lagarde">
+          <div class="poderosa-overlay">
+            <h3>Marcela Lagarde</h3>
+            <p>Luchadora histórica en contra de la violencia de género en México.</p>
+          </div>
+        </div>
+
+      </div>
+      <button class="track-nav next" data-target="poderosasTrack" aria-label="Siguiente">&#10095;</button>
+    </div>
+  </section>
+
+  <!-- personas que inspiran -->
+  <section id="InspiracionMX">
+    <div class="section-head">
+      <span class="eyebrow">Voces que inspiran</span>
+      <h2>Inspiración Poderosa</h2>
+    </div>
+
+    <div class="spotlight-card">
+      <div class="spotlight-photo">
+        <img id="spotlightImg" src="img/f.elconfidencial.com_original_0c2_c3f_dcd_0c2c3fdcd2478705910d5c8a49615c32.jpg" alt="Emma Watson">
+      </div>
+      <div class="spotlight-text">
+        <span class="quote-mark">&#8220;</span>
+        <p id="spotlightQuote">Te estoy invitando a dar un paso adelante, a ser visible y a preguntarte: si no soy yo, ¿quién? Si no es ahora, ¿cuándo?</p>
+        <h3 id="spotlightName">Emma Watson</h3>
+        <span id="spotlightRole" class="spotlight-role">Actriz · Embajadora Global de HeForShe</span>
+      </div>
+    </div>
+
+    <div class="spotlight-avatars">
+      <button class="spotlight-avatar active"
+        data-img="img/f.elconfidencial.com_original_0c2_c3f_dcd_0c2c3fdcd2478705910d5c8a49615c32.jpg"
+        data-quote="Te estoy invitando a dar un paso adelante, a ser visible y a preguntarte: si no soy yo, ¿quién? Si no es ahora, ¿cuándo?"
+        data-name="Emma Watson"
+        data-role="Actriz · Embajadora Global de HeForShe">
+        <img src="img/f.elconfidencial.com_original_0c2_c3f_dcd_0c2c3fdcd2478705910d5c8a49615c32.jpg" alt="Emma Watson">
+      </button>
+
+      <button class="spotlight-avatar"
+        data-img="img/emwdc-howarduniversity-10_900xx6720-3787-0-614.jpg"
+        data-quote="Me uní a HeForShe para estar CON y APOYAR a las mujeres. Es vital que mostremos solidaridad, que escuchemos y que aprendamos."
+        data-name="Dr. Wayne A. I. Frederick"
+        data-role="Aliado de HeForShe">
+        <img src="img/emwdc-howarduniversity-10_900xx6720-3787-0-614.jpg" alt="Dr. Wayne A. I. Frederick">
+      </button>
+
+      <button class="spotlight-avatar"
+        data-img="img/actress-anne-hathaway-poses-during-a-photocall-for-the-film-news-photo-1653419090.avif"
+        data-quote="¿Por qué siempre son las mujeres las que tienen que romper el techo de cristal? ¿Dónde están los hombres dispuestos a lanzar piedras a través de él? ¡Aquí están!"
+        data-name="Anne Hathaway"
+        data-role="Actriz">
+        <img src="img/actress-anne-hathaway-poses-during-a-photocall-for-the-film-news-photo-1653419090.avif" alt="Anne Hathaway">
+      </button>
+
+      <button class="spotlight-avatar"
+        data-img="img/Main-1-576x486.jpg"
+        data-quote="No puede haber justicia de género si los hombres se quedan al margen."
+        data-name="Winston Duke"
+        data-role="Actor">
+        <img src="img/Main-1-576x486.jpg" alt="Winston Duke">
+      </button>
+
+      <button class="spotlight-avatar"
+        data-img="img/David_Miliband_11_April_2007.jpg"
+        data-quote="Sin la contribución de los hombres, sin un cambio en la forma en que los hombres se comportan, no lograremos los avances hacia la igualdad de género que son tan importantes para todos nosotros."
+        data-name="David Miliband"
+        data-role="Aliado de HeForShe">
+        <img src="img/David_Miliband_11_April_2007.jpg" alt="David Miliband">
+      </button>
+
+      <button class="spotlight-avatar"
+        data-img="img/R1411A_MORITZ.jpg"
+        data-quote="Involucrar a los hombres para que sean activistas, disruptores y generen un cambio en beneficio de los demás es sumamente importante."
+        data-name="Bob Moritz"
+        data-role="Aliado de HeForShe">
+        <img src="img/R1411A_MORITZ.jpg" alt="Bob Moritz">
+      </button>
+    </div>
+  </section>
+
+  <!-- únete al grupo -->
+  <section id="Unete">
+    <div class="unete-inner">
+      <span class="eyebrow">Súmate</span>
+      <h2>¿Quieres formar parte de nuestro grupo estudiantil?</h2>
+      <p>Únete a la comunidad HeForShe y sé parte del cambio hacia una universidad más equitativa.</p>
+      <a href="https://wa.me/526275173035?text=%C2%A1Hola!%20Quiero%20ser%20parte%20del%20grupo%20estudiantil%20HeForShe%20%F0%9F%A9%B7" target="_blank" rel="noopener noreferrer">
+        <button class="cta-button">💬 Quiero unirme</button>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- Instagram -->
+  <section id="Instagram">
+    <p>Nuestro Instagram</p>
+    <a href="https://www.instagram.com/hefor_shecuu/" target="_blank">
+      <button class="instagram-btn">📸 Ir a Instagram</button>
+    </a>
+  </section>
+
+</main>
+
+<!-- Modal: foto grande de Personas Poderosas -->
+<div class="poderosa-modal" id="poderosaModal">
+  <div class="poderosa-modal-inner">
+    <button class="poderosa-modal-close" id="poderosaModalClose" aria-label="Cerrar">&times;</button>
+    <div class="poderosa-modal-photo">
+      <img id="poderosaModalImg" src="" alt="">
+    </div>
+    <div class="poderosa-modal-text">
+      <h3 id="poderosaModalName"></h3>
+      <p id="poderosaModalQuote"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>Gracias por tu interés. 🤍</p>
+  <p>Síguenos en nuestras redes y participa en los eventos</p>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+  // Muestra el próximo evento (el de fecha más cercana que aún no pasa) justo
+  // después del hero. Si no hay ninguno, la sección se oculta por completo
+  // hasta que se agregue un evento nuevo desde el panel de admin.
+  (function cargarProximoEvento(){
+    const seccion = document.getElementById('proximo-evento');
+    const inner = document.getElementById('evento-promo-inner');
+    if (!seccion || !inner) return;
+
+    const hoyStr = new Date().toISOString().slice(0, 10);
+
+    db.collection('eventos')
+      .where('fecha', '>=', hoyStr)
+      .orderBy('fecha', 'asc')
+      .limit(1)
+      .get()
+      .then(snap => {
+        if (snap.empty) {
+          seccion.style.display = 'none';
+          return;
+        }
+        const ev = snap.docs[0].data();
+
+        const mediaHtml = ev.mediaTipo === 'video'
+          ? `<video controls autoplay loop muted playsinline preload="auto" ${ev.posterUrl ? `poster="${ev.posterUrl}"` : ''}>
+               <source src="${ev.mediaUrl}" type="video/mp4">
+               Tu navegador no soporta el video.
+             </video>`
+          : `<img src="${ev.mediaUrl}" alt="${ev.titulo}" style="width:100%;height:100%;object-fit:cover;">`;
+
+        const detalles = [];
+        if (ev.fecha) {
+          const [y, m, d] = ev.fecha.split('-');
+          detalles.push(`<p>📅 ${d}/${m}/${y}${ev.hora ? ' · ' + ev.hora : ''}</p>`);
+        }
+        if (ev.ubicacion) detalles.push(`<p>📍 ${ev.ubicacion}</p>`);
+        if (ev.metaExtra) detalles.push(`<p>${ev.metaExtra}</p>`);
+        if (ev.descripcion) detalles.push(`<p>${ev.descripcion}</p>`);
+
+        inner.innerHTML = `
+          <div class="evento-promo-video">${mediaHtml}</div>
+          <div class="evento-promo-text">
+            <span class="eyebrow">Próximo evento</span>
+            <h2>${ev.titulo}</h2>
+            ${detalles.join('')}
+            <a href="eventos.html"><button class="cta-button">Ver todos los eventos</button></a>
+          </div>
+        `;
+        seccion.style.display = '';
+      })
+      .catch(err => {
+        console.error(err);
+        seccion.style.display = 'none';
+      });
+  })();
+
+  function toggleVideo(btn) {
+    const videoSection = document.getElementById("video-section");
+    if (videoSection.style.display === "block") {
+      videoSection.style.display = "none";
+      btn.innerText = "Ver más sobre nosotros";
+    } else {
+      videoSection.style.display = "block";
+      btn.innerText = "Ocultar video";
+      videoSection.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  const infoButtons = document.querySelectorAll(".info-btn");
+  infoButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const info = button.nextElementSibling;
+      if (info && info.classList.contains("info-text")) {
+        info.classList.toggle("active");
+        button.textContent = info.classList.contains("active") ? "Ver menos información" : "Ver más información";
+      }
+    });
+  });
+
+  // carruseles horizontales (Poderosas MX y Contribuir) — solo navegación manual, sin autoplay
+  document.querySelectorAll('.track-nav').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const track = document.getElementById(btn.dataset.target);
+      if (!track) return;
+      const cardWidth = track.querySelector(':scope > *')?.offsetWidth || 250;
+      const delta = cardWidth + 26; // ancho de tarjeta + gap aprox
+      track.scrollBy({ left: btn.classList.contains('next') ? delta : -delta, behavior: 'smooth' });
+    });
+  });
+
+  // Sección de temporada: muestra solo el bloque del mes actual.
+  // Si el mes no tiene un bloque definido (data-month), la sección se oculta por completo.
+  (function actualizarTemporada(){
+    const seccion = document.getElementById('Temporada');
+    if (!seccion) return;
+    const mesActual = new Date().getMonth() + 1; // enero = 1 ... diciembre = 12
+    const bloques = seccion.querySelectorAll('.temporada-block');
+    let hayBloqueActivo = false;
+    bloques.forEach(bloque => {
+      const esMesActual = parseInt(bloque.dataset.month, 10) === mesActual;
+      bloque.style.display = esMesActual ? 'grid' : 'none';
+      if (esMesActual) hayBloqueActivo = true;
+    });
+    seccion.style.display = hayBloqueActivo ? '' : 'none';
+  })();
+
+  const poderosasTrack = document.getElementById('poderosasTrack');
+
+  // modal: foto grande + texto abajo al hacer clic en una tarjeta
+  const poderosaModal = document.getElementById('poderosaModal');
+  const poderosaModalImg = document.getElementById('poderosaModalImg');
+  const poderosaModalName = document.getElementById('poderosaModalName');
+  const poderosaModalQuote = document.getElementById('poderosaModalQuote');
+
+  function openPoderosaModal(card) {
+    const img = card.querySelector('img');
+    const name = card.querySelector('h3')?.textContent || '';
+    const quote = card.querySelector('p')?.textContent || '';
+    poderosaModalImg.src = img.src;
+    poderosaModalImg.alt = img.alt;
+    poderosaModalName.textContent = name;
+    poderosaModalQuote.textContent = quote;
+    poderosaModal.classList.add('active');
+  }
+  function closePoderosaModal() {
+    poderosaModal.classList.remove('active');
+  }
+
+  document.querySelectorAll('.poderosa-card').forEach(card => {
+    card.addEventListener('click', () => openPoderosaModal(card));
+  });
+  document.getElementById('poderosaModalClose').addEventListener('click', closePoderosaModal);
+  poderosaModal.addEventListener('click', (e) => {
+    if (e.target === poderosaModal) closePoderosaModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && poderosaModal.classList.contains('active')) closePoderosaModal();
+  });
+
+  // spotlight de inspiración (selector de avatares)
+  const spotlightImg = document.getElementById('spotlightImg');
+  const spotlightQuote = document.getElementById('spotlightQuote');
+  const spotlightName = document.getElementById('spotlightName');
+  const spotlightRole = document.getElementById('spotlightRole');
+
+  const spotlightAvatars = Array.from(document.querySelectorAll('.spotlight-avatar'));
+
+  function setActiveSpotlightAvatar(btn) {
+    if (!btn || btn.classList.contains('active')) return;
+    spotlightAvatars.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    spotlightImg.style.opacity = 0;
+    setTimeout(() => {
+      spotlightImg.src = btn.dataset.img;
+      spotlightQuote.textContent = btn.dataset.quote;
+      spotlightName.textContent = btn.dataset.name;
+      spotlightRole.textContent = btn.dataset.role;
+      spotlightImg.style.opacity = 1;
+    }, 200);
+  }
+
+  spotlightAvatars.forEach(btn => {
+    btn.addEventListener('click', () => {
+      setActiveSpotlightAvatar(btn);
+      restartSpotlightAutoplay();
+    });
+  });
+
+  // autoplay de Inspiración Poderosa (cada 2.5s)
+  let spotlightInterval = null;
+
+  function advanceSpotlight() {
+    if (spotlightAvatars.length === 0) return;
+    const currentIndex = spotlightAvatars.findIndex(b => b.classList.contains('active'));
+    const nextIndex = (currentIndex + 1) % spotlightAvatars.length;
+    setActiveSpotlightAvatar(spotlightAvatars[nextIndex]);
+  }
+
+  function startSpotlightAutoplay() {
+    clearInterval(spotlightInterval);
+    spotlightInterval = setInterval(advanceSpotlight, 2500);
+  }
+  function stopSpotlightAutoplay() {
+    clearInterval(spotlightInterval);
+  }
+  function restartSpotlightAutoplay() {
+    stopSpotlightAutoplay();
+    startSpotlightAutoplay();
+  }
+
+  const spotlightAvatarsRow = document.querySelector('.spotlight-avatars');
+  if (spotlightAvatarsRow && spotlightAvatars.length > 0) {
+    startSpotlightAutoplay();
+    spotlightAvatarsRow.addEventListener('mouseenter', stopSpotlightAutoplay);
+    spotlightAvatarsRow.addEventListener('mouseleave', startSpotlightAutoplay);
+  }
+
+  // Evita que la página "salte" cuando la cita seleccionada (ej. David Miliband)
+  // es más larga que las demás: medimos la altura de cada cita posible y
+  // fijamos esa altura máxima como min-height del bloque de texto.
+  const spotlightTextEl = document.querySelector('.spotlight-text');
+
+  function calcSpotlightMinHeight() {
+    if (!spotlightTextEl) return;
+
+    spotlightTextEl.style.minHeight = '0px';
+
+    const clone = spotlightTextEl.cloneNode(true);
+    clone.style.position = 'absolute';
+    clone.style.visibility = 'hidden';
+    clone.style.pointerEvents = 'none';
+    clone.style.height = 'auto';
+    clone.style.minHeight = '0px';
+    clone.style.width = spotlightTextEl.offsetWidth + 'px';
+    document.body.appendChild(clone);
+
+    const cloneQuote = clone.querySelector('p');
+    const cloneName = clone.querySelector('h3');
+    const cloneRole = clone.querySelector('.spotlight-role');
+
+    let maxHeight = 0;
+    document.querySelectorAll('.spotlight-avatar').forEach(btn => {
+      cloneQuote.textContent = btn.dataset.quote;
+      cloneName.textContent = btn.dataset.name;
+      cloneRole.textContent = btn.dataset.role;
+      const h = clone.offsetHeight;
+      if (h > maxHeight) maxHeight = h;
+    });
+
+    document.body.removeChild(clone);
+    spotlightTextEl.style.minHeight = maxHeight + 'px';
+  }
+
+  window.addEventListener('load', calcSpotlightMinHeight);
+  let spotlightResizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(spotlightResizeTimeout);
+    spotlightResizeTimeout = setTimeout(calcSpotlightMinHeight, 200);
+  });
+
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.classList.remove('open');
+  }));
+</script>
+
+</body>
+</html>
