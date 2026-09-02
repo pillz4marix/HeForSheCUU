@@ -9,12 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   HeForShe · sistema de diseño
-   Paleta: rosa magenta + violeta (fiel a la marca original)
-   Tipografía: Fraunces (display) + Inter (texto) + Space Grotesk (etiquetas)
-   Firma visual: anillos entrelazados (unión He + She)
-============================================================ */
 
 :root{
   --ink:#141414;
@@ -595,7 +589,7 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
 @media (max-width:480px){
   #hero h1{ font-size:1.9rem; }
 }
-/* ================= EVENTOS — página (rediseño minimalista) ================= */
+/* ================= EVENTOS — página ================= */
 #Eventos{
   padding: 6rem 1.5rem 7rem;
   max-width: 760px;
@@ -615,9 +609,10 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
 
 .evento-card{
   display:flex;
-  gap: 2.2rem;
+  align-items:flex-start;
+  gap: 2.4rem;
   width:100%;
-  padding: 2.6rem 0;
+  padding: 3rem 0;
   border-radius:0;
   overflow:visible;
   background: transparent;
@@ -628,36 +623,76 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
 }
 .eventos-lista .evento-card:first-child{ padding-top:0; }
 
-.evento-fecha{
-  min-width: 74px;
-  background: transparent;
-  color: var(--ink);
-  padding:0;
-  display:flex;
-  flex-direction:column;
-  justify-content:flex-start;
-  align-items:flex-start;
-  text-align:left;
-  border-right:none;
+.evento-visual{
+  position:relative;
+  flex-shrink:0;
+  width: 176px;
+  height: 176px;
 }
-.evento-fecha .dia{ font-family: var(--font-display); font-size:2.6rem; font-weight:700; line-height:1; color: var(--ink); }
-.evento-fecha .mes{ margin-top:0.4rem; font-family: var(--font-label); font-size:0.65rem; letter-spacing:2px; text-transform:uppercase; color: var(--magenta-deep); }
 
-.evento-contenido{ flex:1; min-width:0; padding:0; }
-.evento-contenido h3{ font-size:1.35rem; margin-bottom:0.9rem; letter-spacing:-0.2px; }
-
-.evento-img{
-  width:100%;
-  aspect-ratio:16/9;
-  border-radius: 6px;
+.evento-thumb{
+  width:100%; height:100%;
+  border-radius: 18px;
   overflow:hidden;
-  background: var(--ink);
-  margin-bottom: 1.3rem;
-  filter: grayscale(15%);
-  transition: filter 0.5s ease;
+  box-shadow: var(--shadow-soft);
+  filter: grayscale(12%);
+  transition: filter 0.4s ease, transform 0.4s ease;
 }
-.evento-card:hover .evento-img{ filter: grayscale(0%); }
-.evento-img img{ width:100%; height:100%; object-fit:cover; }
+.evento-card:hover .evento-thumb{ filter:grayscale(0%); transform: scale(1.02); }
+.evento-thumb img{ width:100%; height:100%; object-fit:cover; }
+
+.evento-stamp{
+  position:absolute;
+  top:-14px; left:-14px;
+  z-index:2;
+  width: 66px;
+  padding: 0.7rem 0.2rem 0.6rem;
+  background: linear-gradient(155deg, var(--magenta) 0%, var(--rose) 100%);
+  border-radius: 10px;
+  color:#fff;
+  text-align:center;
+  transform: rotate(-8deg);
+  box-shadow: 0 10px 20px rgba(226,45,118,0.38);
+  transition: transform 0.45s cubic-bezier(.22,.85,.32,1.2);
+}
+.evento-card:hover .evento-stamp{ transform: rotate(-2deg) translateY(-2px); }
+.evento-stamp::before{
+  content:"";
+  position:absolute; inset:4px;
+  border: 1.5px dashed rgba(255,255,255,0.5);
+  border-radius:6px;
+  pointer-events:none;
+}
+.evento-stamp .mes{ display:block; font-family: var(--font-label); font-size:0.55rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; opacity:0.85; }
+.evento-stamp .dia{ display:block; font-family: var(--font-display); font-size:1.6rem; font-weight:700; line-height:1; margin:0.1rem 0; }
+.evento-stamp .dow{ display:block; font-family: var(--font-label); font-size:0.5rem; letter-spacing:1px; text-transform:uppercase; opacity:0.85; }
+
+.evento-contenido{ flex:1; min-width:0; padding-top:0.15rem; }
+
+.evento-tag{
+  display:inline-block;
+  font-family: var(--font-label);
+  font-size:0.68rem;
+  font-weight:700;
+  color: var(--magenta-deep);
+  background: var(--blush);
+  padding: 0.28rem 0.85rem;
+  border-radius:999px;
+  margin-bottom:0.7rem;
+}
+
+.evento-contenido h3{ font-size:1.5rem; margin-bottom:0.9rem; letter-spacing:-0.3px; }
+
+.evento-meta{
+  display:flex;
+  flex-wrap:wrap;
+  row-gap:0.35rem;
+  column-gap:1.3rem;
+  font-size:0.92rem;
+  color: var(--ink-soft);
+  margin-bottom:1.2rem;
+}
+.evento-meta span{ display:inline-flex; align-items:center; gap:0.4rem; }
 
 .evento-btn{
   background:none;
@@ -681,9 +716,8 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
   margin-top: 0;
   transition: max-height 0.6s ease, opacity 0.5s ease, margin 0.5s ease;
 }
-.evento-info.active{ max-height:600px; opacity:1; margin-top:1.3rem; }
-.evento-info p{ margin-bottom: 0.35rem; font-size:0.95rem; color: var(--ink-soft); }
-.evento-info p strong{ color: var(--ink); }
+.evento-info.active{ max-height:600px; opacity:1; margin-top:1.1rem; }
+.evento-info p{ font-size:0.95rem; color: var(--ink-soft); line-height:1.65; max-width:56ch; }
 
 /* archivados */
 .evento-card.archivado{
@@ -691,15 +725,17 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
   filter: grayscale(100%);
 }
 .evento-card.archivado::after{
-  content:"FINALIZADO";
+  content:"Finalizado";
   position:absolute;
-  top:2.6rem; right:0;
+  top:3rem; right:0;
   font-family: var(--font-label);
-  background: none;
-  color: var(--ink-soft);
-  font-size:0.62rem;
-  letter-spacing:1.5px;
-  padding: 0;
+  background: var(--ink);
+  color:#fff;
+  font-size:0.6rem;
+  font-weight:700;
+  letter-spacing:1.2px;
+  padding: 0.32rem 0.75rem;
+  border-radius:999px;
   z-index:2;
 }
 .evento-card.archivado:hover{ opacity:0.65; }
@@ -751,9 +787,9 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
 .eventos-pasados-lista{ display:flex; flex-direction:column; }
 
 @media (max-width: 620px){
-  .evento-card{ flex-direction:column; gap:0.9rem; padding: 2.2rem 0; }
-  .evento-fecha{ flex-direction:row; align-items:baseline; gap:0.6rem; }
-  .evento-fecha .dia{ font-size:1.9rem; }
+  .evento-card{ flex-direction:column; gap:1.2rem; padding: 2.4rem 0; }
+  .evento-visual{ width:140px; height:140px; }
+  .evento-stamp{ width:58px; top:-10px; left:-10px; }
   .evento-card.archivado::after{ position:static; display:inline-block; margin-top:0.6rem; }
 }
 
@@ -785,62 +821,107 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
 
   <div class="eventos-lista">
 
-    <!-- EVENTO 1 -->
-    <div class="evento-card" data-fecha="2026-02-10">
-      <div class="evento-fecha">
-        <span class="dia">10</span>
-        <span class="mes">Febrero</span>
+    <!-- EVENTO NOCHE MEXICANA -->
+    <div class="evento-card" data-fecha="2026-09-10">
+      <div class="evento-visual">
+        <div class="evento-thumb">
+          <img src="img/poster-evento.png" alt="Noche Mexicana - HeForShe">
+        </div>
+        <div class="evento-stamp">
+          <span class="mes">Sep</span>
+          <span class="dia">10</span>
+          <span class="dow">Jueves</span>
+        </div>
       </div>
       <div class="evento-contenido">
-        <div class="evento-img">
-          <img src="img/Cineforum.png" alt="Evento HeForShe">
+        <span class="evento-tag">Fiesta</span>
+        <h3>Noche Mexicana</h3>
+        <div class="evento-meta">
+          <span>⏰ 7:00 p.m.</span>
+          <span>📍 Canchas de Tecmilenio</span>
+          <span>🎉 Jamoncillos $10 c/u</span>
         </div>
-        <h3>Cineforum</h3>
         <button class="evento-btn toggle-btn">Ver más información</button>
         <div class="evento-info">
-          <p><strong>📅 Fecha:</strong> Martes, 10 de febrero</p>
-          <p><strong>⏰ Hora:</strong> 5:30 p.m.</p>
-          <p><strong>📍 Lugar:</strong> Salón VIVE</p>
+          <p>Una noche para celebrar la cultura mexicana en comunidad: música, antojitos y venta de jamoncillos para apoyar la causa. Ven a convivir con nosotros en las canchas de Tecmilenio.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- EVENTO 1 -->
+    <div class="evento-card" data-fecha="2026-02-10">
+      <div class="evento-visual">
+        <div class="evento-thumb">
+          <img src="img/Cineforum.png" alt="Evento HeForShe">
+        </div>
+        <div class="evento-stamp">
+          <span class="mes">Feb</span>
+          <span class="dia">10</span>
+          <span class="dow">Martes</span>
+        </div>
+      </div>
+      <div class="evento-contenido">
+        <span class="evento-tag">Cine</span>
+        <h3>Cineforum</h3>
+        <div class="evento-meta">
+          <span>⏰ 5:30 p.m.</span>
+          <span>📍 Salón VIVE</span>
+        </div>
+        <button class="evento-btn toggle-btn">Ver más información</button>
+        <div class="evento-info">
+          <p>Proyección de película seguida de un conversatorio abierto sobre los temas que plantea, con espacio para preguntas y reflexión colectiva.</p>
         </div>
       </div>
     </div>
 
     <!-- EVENTO 2 -->
     <div class="evento-card" data-fecha="2026-02-11">
-      <div class="evento-fecha">
-        <span class="dia">11</span>
-        <span class="mes">Febrero</span>
-      </div>
-      <div class="evento-contenido">
-        <div class="evento-img">
+      <div class="evento-visual">
+        <div class="evento-thumb">
           <img src="img/evento-heforshe-14-feb.png" alt="Evento HeForShe">
         </div>
+        <div class="evento-stamp">
+          <span class="mes">Feb</span>
+          <span class="dia">11</span>
+          <span class="dow">Miércoles</span>
+        </div>
+      </div>
+      <div class="evento-contenido">
+        <span class="evento-tag">Charla</span>
         <h3>Del Ideal al Vínculo Real</h3>
+        <div class="evento-meta">
+          <span>⏰ 5:30 p.m.</span>
+          <span>📍 SUM</span>
+        </div>
         <button class="evento-btn toggle-btn">Ver más información</button>
         <div class="evento-info">
-          <p><strong>📅 Fecha:</strong> Miércoles, 11 de febrero</p>
-          <p><strong>⏰ Hora:</strong> 5:30 p.m.</p>
-          <p><strong>📍 Lugar:</strong> SUM</p>
+          <p>Un espacio de diálogo sobre relaciones sanas, expectativas y vínculos reales, alejados de los ideales románticos que a veces lastiman.</p>
         </div>
       </div>
     </div>
 
     <!-- EVENTO 3 -->
     <div class="evento-card" data-fecha="2026-02-12">
-      <div class="evento-fecha">
-        <span class="dia">12</span>
-        <span class="mes">Febrero</span>
-      </div>
-      <div class="evento-contenido">
-        <div class="evento-img">
+      <div class="evento-visual">
+        <div class="evento-thumb">
           <img src="img/Platica_con_proposito.png" alt="Evento HeForShe">
         </div>
+        <div class="evento-stamp">
+          <span class="mes">Feb</span>
+          <span class="dia">12</span>
+          <span class="dow">Jueves</span>
+        </div>
+      </div>
+      <div class="evento-contenido">
+        <span class="evento-tag">Charla</span>
         <h3>Diálogo con propósito</h3>
+        <div class="evento-meta">
+          <span>⏰ 5:00 p.m.</span>
+          <span>📍 SUM</span>
+        </div>
         <button class="evento-btn toggle-btn">Ver más información</button>
         <div class="evento-info">
-          <p><strong>📅 Fecha:</strong> Jueves, 12 de febrero</p>
-          <p><strong>⏰ Hora:</strong> Por confirmar</p>
-          <p><strong>📍 Lugar:</strong> Por confirmar</p>
+          <p>Conversación abierta sobre igualdad de género y masculinidades, pensada para generar reflexión y acción dentro de la comunidad estudiantil.</p>
         </div>
       </div>
     </div>
