@@ -9,13 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   HeForShe · sistema de diseño
-   Paleta: rosa magenta + violeta (fiel a la marca original)
-   Tipografía: Fraunces (display) + Inter (texto) + Space Grotesk (etiquetas)
-   Firma visual: anillos entrelazados (unión He + She)
-============================================================ */
-
+   
 :root{
   --ink:#141414;
   --ink-soft:#59535c;
@@ -312,7 +306,7 @@ nav{
   align-items:stretch;
   box-shadow: var(--shadow-soft);
 }
-.evento-promo-video{ position:relative; aspect-ratio:9/16; background:#000; }
+.evento-promo-video{ position:relative; aspect-ratio:9/16; min-height: 400px; background:#000; }
 .evento-promo-video iframe, .evento-promo-video video{ position:absolute; inset:0; width:100%; height:100%; border:none; object-fit:cover; }
 .evento-promo-text{
   padding: 3rem 2.6rem;
@@ -333,7 +327,7 @@ nav{
 
 @media (max-width: 780px){
   .evento-promo-inner{ grid-template-columns: 1fr; }
-  .evento-promo-video{ max-width: 320px; margin: 0 auto; }
+  .evento-promo-video{ max-width: 320px; min-height: 568px; margin: 0 auto; }
   .evento-promo-text{ padding: 2.2rem 1.8rem 2.6rem; }
 }
 
