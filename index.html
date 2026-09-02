@@ -566,6 +566,7 @@ nav{
 
 .spotlight-card{
   max-width: 960px;
+  min-height: 420px;
   margin: 0 auto 2.6rem;
   background: var(--surface);
   border: 1px solid var(--line);
@@ -576,14 +577,15 @@ nav{
   box-shadow: var(--shadow-tight);
   text-align:left;
 }
-.spotlight-photo{ position:relative; overflow:hidden; background: var(--ink); }
-.spotlight-photo img{ width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.35s ease; }
+.spotlight-photo{ position:relative; overflow:hidden; background: var(--ink); min-height: 420px; }
+.spotlight-photo img{ width:100%; height:100%; object-fit:cover; display:block; transition: opacity 0.35s ease; position:absolute; inset:0; }
 .spotlight-text{
   padding: 2.8rem 3rem 2.8rem 2.4rem;
   display:flex;
   flex-direction:column;
   justify-content:center;
   box-sizing: border-box;
+  min-height: 420px;
 }
 .spotlight-text .quote-mark{
   font-family: var(--font-display);
@@ -633,9 +635,10 @@ nav{
 .spotlight-avatar.active{ opacity:1; border-color: var(--magenta); transform: translateY(-3px); }
 
 @media (max-width: 768px){
-  .spotlight-card{ grid-template-columns: 1fr; }
-  .spotlight-photo{ aspect-ratio: 16/10; }
-  .spotlight-text{ padding: 2.2rem 1.8rem 2.4rem; }
+  .spotlight-card{ grid-template-columns: 1fr; min-height: 0; }
+  .spotlight-photo{ aspect-ratio: 16/10; min-height: 0; position:relative; }
+  .spotlight-photo img{ position:static; }
+  .spotlight-text{ padding: 2.2rem 1.8rem 2.4rem; min-height: 0; }
 }
 
 /* ================= CONTRIBUIR (carrusel de ideas) ================= */
@@ -804,8 +807,8 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
   <section class="evento-promo">
     <div class="evento-promo-inner">
       <div class="evento-promo-video">
-        <video controls preload="metadata" poster="img/poster-evento.jpg">
-          <source src="video/WhatsApp Video 2026-09-01 at 5.54.11 PM.mp4" type="video/mp4">
+        <video controls autoplay loop muted playsinline preload="auto" poster="img/poster-evento.jpg">
+          <source src="video/noche-mexicana.mp4" type="video/mp4">
           Tu navegador no soporta el video.
         </video>
       </div>
