@@ -333,6 +333,55 @@ input, textarea, select{ font-family: var(--font-body); font-size:0.95rem; }
       <p class="empty-state">Cargando eventos...</p>
     </div>
   </div>
+
+  <!-- FORMULARIO: RECUERDOS (fotos de eventos) -->
+  <div class="panel">
+    <h2 id="recuerdo-form-title">Subir fotos de un evento (Recuerdos)</h2>
+    <p style="color:var(--ink-soft); font-size:0.9rem; margin-top:-0.8rem; margin-bottom:1.4rem;">
+      Estas fotos aparecen como un collage en el inicio durante el mes del evento y después quedan guardadas para siempre en la página de Recuerdos, ordenadas por mes y año.
+    </p>
+    <form id="recuerdo-form">
+      <input type="hidden" id="recuerdo-id">
+      <div class="grid-2">
+        <div class="field span-2">
+          <label for="r-titulo">Nombre del evento</label>
+          <input type="text" id="r-titulo" placeholder="Ej. Noche Mexicana 2026" required>
+        </div>
+        <div class="field">
+          <label for="r-fecha">Fecha del evento</label>
+          <input type="date" id="r-fecha" required>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:0.6rem;">
+        <label>Fotos del evento</label>
+        <div class="file-drop">
+          <span>Selecciona una o varias fotos (puedes volver a este formulario después para agregar más).</span>
+          <input type="file" id="r-fotos" accept="image/*" multiple>
+        </div>
+        <div class="preview-box" id="recuerdo-preview" style="display:flex; flex-wrap:wrap; gap:0.6rem;"></div>
+      </div>
+
+      <div class="progress-wrap" id="recuerdo-progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="recuerdo-progress-fill"></div></div>
+        <div class="progress-label" id="recuerdo-progress-label">Subiendo fotos...</div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" id="recuerdo-submit-btn">Guardar recuerdo</button>
+        <button type="button" class="btn btn-ghost" id="recuerdo-cancel-btn" style="display:none;">Cancelar edición</button>
+        <span class="form-status" id="recuerdo-form-status"></span>
+      </div>
+    </form>
+  </div>
+
+  <!-- LISTA DE RECUERDOS -->
+  <div class="panel">
+    <h2>Recuerdos existentes</h2>
+    <div id="recuerdos-lista-admin">
+      <p class="empty-state">Cargando recuerdos...</p>
+    </div>
+  </div>
 </div>
 
 <!-- ============ FIREBASE ============ -->
@@ -372,6 +421,7 @@ auth.onAuthStateChanged((user) => {
     dashboard.style.display = 'block';
     userEmailEl.textContent = user.email;
     cargarEventosAdmin();
+    cargarRecuerdosAdmin();
   } else {
     loginScreen.style.display = 'flex';
     dashboard.style.display = 'none';
@@ -424,8 +474,6 @@ const progressWrap = document.getElementById('progress-wrap');
 const progressFill = document.getElementById('progress-fill');
 const progressLabel = document.getElementById('progress-label');
 
-// Sube un archivo a Cloudinary (plan gratis, sin tarjeta) usando un
-// "unsigned upload preset" — ver cloudinary-config.js para configurarlo.
 function subirArchivo(file, carpeta) {
   return new Promise((resolve, reject) => {
     if (!CLOUDINARY_CLOUD_NAME || CLOUDINARY_CLOUD_NAME === "TU_CLOUD_NAME") {
@@ -613,10 +661,6 @@ async function eliminarEvento(id) {
   if (!confirm('¿Eliminar este evento? Esta acción no se puede deshacer.')) return;
   try {
     await db.collection('eventos').doc(id).delete();
-    // Nota: el archivo en Cloudinary no se borra automáticamente (borrarlo
-    // requiere una petición firmada desde un servidor). No afecta el uso
-    // gratuito de tu cuenta a este volumen; puedes borrarlo a mano desde
-    // el Media Library de Cloudinary si quieres.
   } catch (err) {
     console.error(err);
     alert('No se pudo eliminar el evento.');
@@ -633,6 +677,188 @@ function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
+}
+
+// ================= RECUERDOS (fotos de eventos) =================
+const recuerdoForm = document.getElementById('recuerdo-form');
+const rFotos = document.getElementById('r-fotos');
+const recuerdoPreview = document.getElementById('recuerdo-preview');
+const recuerdoSubmitBtn = document.getElementById('recuerdo-submit-btn');
+const recuerdoCancelBtn = document.getElementById('recuerdo-cancel-btn');
+const recuerdoFormTitle = document.getElementById('recuerdo-form-title');
+const recuerdoFormStatus = document.getElementById('recuerdo-form-status');
+const recuerdoProgressWrap = document.getElementById('recuerdo-progress-wrap');
+const recuerdoProgressFill = document.getElementById('recuerdo-progress-fill');
+const recuerdoProgressLabel = document.getElementById('recuerdo-progress-label');
+
+let fotosExistentes = []; // urls ya guardadas cuando se está editando un recuerdo
+
+function mostrarPreviewsRecuerdo() {
+  recuerdoPreview.innerHTML = '';
+  const nuevas = Array.from(rFotos.files || []);
+  const todas = [
+    ...fotosExistentes.map(url => ({ url, esNueva: false })),
+    ...nuevas.map(f => ({ url: URL.createObjectURL(f), esNueva: true }))
+  ];
+  if (todas.length === 0) {
+    recuerdoPreview.style.display = 'none';
+    return;
+  }
+  recuerdoPreview.style.display = 'flex';
+  todas.forEach(item => {
+    const img = document.createElement('img');
+    img.src = item.url;
+    img.style.width = '90px';
+    img.style.height = '90px';
+    img.style.objectFit = 'cover';
+    img.style.borderRadius = '10px';
+    img.style.opacity = item.esNueva ? '1' : '0.85';
+    recuerdoPreview.appendChild(img);
+  });
+}
+rFotos.addEventListener('change', mostrarPreviewsRecuerdo);
+
+recuerdoForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  recuerdoFormStatus.textContent = '';
+  recuerdoFormStatus.className = 'form-status';
+  recuerdoSubmitBtn.disabled = true;
+
+  const id = document.getElementById('recuerdo-id').value || db.collection('recuerdos').doc().id;
+  const fechaStr = document.getElementById('r-fecha').value; // YYYY-MM-DD
+  const [anio, mes] = fechaStr.split('-').map(Number);
+  const archivosNuevos = Array.from(rFotos.files || []);
+
+  try {
+    let urlsNuevas = [];
+    if (archivosNuevos.length > 0) {
+      recuerdoProgressWrap.classList.add('show');
+      let subidas = 0;
+      urlsNuevas = await Promise.all(archivosNuevos.map(async (file) => {
+        const url = await subirArchivo(file, `heforshe-recuerdos/${id}`);
+        subidas++;
+        recuerdoProgressFill.style.width = Math.round((subidas / archivosNuevos.length) * 100) + '%';
+        recuerdoProgressLabel.textContent = `Subiendo fotos... ${subidas}/${archivosNuevos.length}`;
+        return url;
+      }));
+    }
+
+    const datos = {
+      titulo: document.getElementById('r-titulo').value.trim(),
+      fecha: fechaStr,
+      mes,
+      anio,
+      fotos: [...fotosExistentes, ...urlsNuevas],
+      actualizadoEn: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    if (datos.fotos.length === 0) {
+      throw new Error('Agrega al menos una foto.');
+    }
+
+    const esNuevo = !document.getElementById('recuerdo-id').value;
+    if (esNuevo) {
+      datos.creadoEn = firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('recuerdos').doc(id).set(datos);
+    } else {
+      await db.collection('recuerdos').doc(id).update(datos);
+    }
+
+    recuerdoFormStatus.textContent = '✓ Recuerdo guardado';
+    recuerdoFormStatus.classList.add('ok');
+    resetRecuerdoForm();
+    cargarRecuerdosAdmin();
+  } catch (err) {
+    console.error(err);
+    recuerdoFormStatus.textContent = err.message || 'Ocurrió un error al guardar.';
+    recuerdoFormStatus.classList.add('bad');
+  } finally {
+    recuerdoSubmitBtn.disabled = false;
+    recuerdoProgressWrap.classList.remove('show');
+    recuerdoProgressFill.style.width = '0%';
+  }
+});
+
+function resetRecuerdoForm() {
+  recuerdoForm.reset();
+  document.getElementById('recuerdo-id').value = '';
+  fotosExistentes = [];
+  mostrarPreviewsRecuerdo();
+  recuerdoFormTitle.textContent = 'Subir fotos de un evento (Recuerdos)';
+  recuerdoSubmitBtn.textContent = 'Guardar recuerdo';
+  recuerdoCancelBtn.style.display = 'none';
+}
+recuerdoCancelBtn.addEventListener('click', resetRecuerdoForm);
+
+const listaRecuerdosEl = document.getElementById('recuerdos-lista-admin');
+const NOMBRES_MES = ['', 'Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function cargarRecuerdosAdmin() {
+  db.collection('recuerdos').orderBy('fecha', 'desc').onSnapshot((snap) => {
+    if (snap.empty) {
+      listaRecuerdosEl.innerHTML = '<p class="empty-state">Aún no has subido ningún recuerdo. Usa el formulario de arriba para agregar el primero.</p>';
+      return;
+    }
+    listaRecuerdosEl.innerHTML = '';
+    snap.forEach(doc => {
+      const rec = doc.data();
+      const row = document.createElement('div');
+      row.className = 'evento-row';
+      row.innerHTML = `
+        <div class="evento-row-thumb">${rec.fotos && rec.fotos[0] ? `<img src="${rec.fotos[0]}" alt="">` : ''}</div>
+        <div class="evento-row-info">
+          <h3>${escapeHtml(rec.titulo || '(Sin título)')}</h3>
+          <div class="evento-row-meta">
+            <span class="evento-row-badge">${NOMBRES_MES[rec.mes] || ''} ${rec.anio || ''}</span>
+            <span>${rec.fotos ? rec.fotos.length : 0} foto(s)</span>
+          </div>
+        </div>
+        <div class="evento-row-actions">
+          <button class="btn btn-ghost btn-small" data-editar-recuerdo="${doc.id}">Editar / agregar fotos</button>
+          <button class="btn btn-danger btn-small" data-eliminar-recuerdo="${doc.id}">Eliminar</button>
+        </div>
+      `;
+      listaRecuerdosEl.appendChild(row);
+    });
+
+    listaRecuerdosEl.querySelectorAll('[data-editar-recuerdo]').forEach(btn => {
+      btn.addEventListener('click', () => cargarRecuerdoEnFormulario(btn.dataset.editarRecuerdo));
+    });
+    listaRecuerdosEl.querySelectorAll('[data-eliminar-recuerdo]').forEach(btn => {
+      btn.addEventListener('click', () => eliminarRecuerdo(btn.dataset.eliminarRecuerdo));
+    });
+  }, (err) => {
+    console.error(err);
+    listaRecuerdosEl.innerHTML = '<p class="empty-state">No se pudieron cargar los recuerdos.</p>';
+  });
+}
+
+async function cargarRecuerdoEnFormulario(id) {
+  const doc = await db.collection('recuerdos').doc(id).get();
+  if (!doc.exists) return;
+  const rec = doc.data();
+
+  document.getElementById('recuerdo-id').value = id;
+  document.getElementById('r-titulo').value = rec.titulo || '';
+  document.getElementById('r-fecha').value = rec.fecha || '';
+  fotosExistentes = rec.fotos || [];
+  rFotos.value = '';
+  mostrarPreviewsRecuerdo();
+
+  recuerdoFormTitle.textContent = 'Editar recuerdo';
+  recuerdoSubmitBtn.textContent = 'Actualizar recuerdo';
+  recuerdoCancelBtn.style.display = 'inline-block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function eliminarRecuerdo(id) {
+  if (!confirm('¿Eliminar este recuerdo y todas sus fotos? Esta acción no se puede deshacer.')) return;
+  try {
+    await db.collection('recuerdos').doc(id).delete();
+  } catch (err) {
+    console.error(err);
+    alert('No se pudo eliminar el recuerdo.');
+  }
 }
 </script>
 
