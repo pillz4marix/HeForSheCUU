@@ -9,12 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   HeForShe · sistema de diseño
-   Paleta: rosa magenta + violeta (fiel a la marca original)
-   Tipografía: Fraunces (display) + Inter (texto) + Space Grotesk (etiquetas)
-   Firma visual: anillos entrelazados (unión He + She)
-============================================================ */
 
 :root{
   --ink:#141414;
@@ -523,6 +517,116 @@ nav{
   .temporada-text::after{ font-size:6rem; }
 }
 
+/* ================= TEMAS MENSUALES (para Recuerdos) =================
+   Mismo espíritu visual que la sección de Temporada, pero como
+   variables reutilizables ([data-month]) para los 12 meses del año,
+   ya que un recuerdo puede subirse en cualquier mes. */
+[data-month="1"]{  --tema-accent: linear-gradient(90deg, #d4af37, #6a4fb6, #d4af37); --tema-accent-text:#9c7a1a; --tema-bg: linear-gradient(135deg, #fdf6e3, #f2effc); --tema-emoji:"✨"; --tema-nombre:"Enero"; }
+[data-month="2"]{  --tema-accent: linear-gradient(90deg, #ff6f91, #ff2d55); --tema-accent-text:#e0245e; --tema-bg: linear-gradient(135deg, #ffe1ea, #ffd0dd); --tema-emoji:"💗"; --tema-nombre:"Febrero"; }
+[data-month="3"]{  --tema-accent: linear-gradient(90deg, #7c3aed, #b794f6); --tema-accent-text:#6d28d9; --tema-bg: linear-gradient(135deg, #f5f0ff, #ece1ff); --tema-emoji:"💜"; --tema-nombre:"Marzo"; }
+[data-month="4"]{  --tema-accent: linear-gradient(90deg, #3f9142, #8bc98d); --tema-accent-text:#2f7a35; --tema-bg: linear-gradient(135deg, #eefaf0, #e3f7e6); --tema-emoji:"🌱"; --tema-nombre:"Abril"; }
+[data-month="5"]{  --tema-accent: linear-gradient(90deg, #ff7fae, #ffb6cf); --tema-accent-text:#d6427a; --tema-bg: linear-gradient(135deg, #fff0f5, #ffe6ef); --tema-emoji:"💐"; --tema-nombre:"Mayo"; }
+[data-month="6"]{  --tema-accent: linear-gradient(90deg, #ff595e, #ffca3a, #8ac926, #1982c4, #6a4c93); --tema-accent-text:#6a4c93; --tema-bg: linear-gradient(135deg, #fff7f0, #f2f7ff); --tema-emoji:"🏳️‍🌈"; --tema-nombre:"Junio"; }
+[data-month="7"]{  --tema-accent: linear-gradient(90deg, #ffb703, #fb8500); --tema-accent-text:#c96a00; --tema-bg: linear-gradient(135deg, #fff8e6, #fff1d1); --tema-emoji:"🤝"; --tema-nombre:"Julio"; }
+[data-month="8"]{  --tema-accent: linear-gradient(90deg, #2f6fed, #6fa1ff); --tema-accent-text:#1f4fbd; --tema-bg: linear-gradient(135deg, #eaf2ff, #dbe9ff); --tema-emoji:"📚"; --tema-nombre:"Agosto"; }
+[data-month="9"]{  --tema-accent: linear-gradient(90deg, #006341 33%, #ffffff 33% 66%, #ce1126 66%); --tema-accent-text:#006341; --tema-bg: linear-gradient(135deg, #eafaf0, #fff9e9 55%, #fdeceb); --tema-emoji:"🇲🇽"; --tema-nombre:"Septiembre"; }
+[data-month="10"]{ --tema-accent: linear-gradient(90deg, #ff8fb3, #e6317f); --tema-accent-text:#d81b6a; --tema-bg: linear-gradient(135deg, #fff0f6, #ffe1ee); --tema-emoji:"🎗️"; --tema-nombre:"Octubre"; }
+[data-month="11"]{ --tema-accent: linear-gradient(90deg, #ff7a00, #ffb066); --tema-accent-text:#c65e00; --tema-bg: linear-gradient(135deg, #fff3e6, #ffe8cf); --tema-emoji:"🧡"; --tema-nombre:"Noviembre"; }
+[data-month="12"]{ --tema-accent: linear-gradient(90deg, #1e6b3a, #c81d25, #1e6b3a); --tema-accent-text:#1e6b3a; --tema-bg: linear-gradient(135deg, #fdece7, #eafaf0); --tema-emoji:"🎄"; --tema-nombre:"Diciembre"; }
+
+/* ================= RECUERDOS DEL MES (inicio) ================= */
+#RecuerdosMes{
+  padding: 0 1.5rem 4rem;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+#RecuerdosMes .eventos-head{ margin-bottom: 2rem; }
+
+.recuerdo-card{
+  position:relative;
+  overflow:hidden;
+  background: var(--tema-bg, var(--surface));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.8rem 1.8rem 2.1rem;
+  margin-bottom: 2rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.recuerdo-card:last-child{ margin-bottom:0; }
+.recuerdo-card:hover{ transform: translateY(-4px); }
+.recuerdo-card::before{
+  content:"";
+  position:absolute; top:0; left:0; right:0; height:8px;
+  background: var(--tema-accent, var(--rose));
+}
+.recuerdo-card::after{
+  content: var(--tema-emoji, "");
+  position:absolute; right:-0.3rem; bottom:-1.3rem;
+  font-size:6.5rem; line-height:1; opacity:0.12; pointer-events:none;
+}
+.recuerdo-card > *{ position:relative; z-index:1; }
+
+.recuerdo-head{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:0.6rem; margin-bottom:1.2rem; }
+.recuerdo-head .eyebrow{
+  display:inline-block; padding:0.35rem 0.9rem; border-radius:999px;
+  background: rgba(255,255,255,0.65); color: var(--tema-accent-text, var(--rose));
+}
+.recuerdo-head h3{ font-size:1.35rem; width:100%; margin-top:0.5rem; }
+.recuerdo-head .recuerdo-fecha{ font-family: var(--font-label); font-size:0.8rem; color: var(--ink-soft); }
+
+/* mosaico: la primera foto grande, el resto en cuadrícula */
+.recuerdo-mosaico{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 110px;
+  gap: 0.5rem;
+}
+.recuerdo-mosaico button{
+  border:none; padding:0; margin:0; cursor:pointer;
+  border-radius: 12px; overflow:hidden; background: var(--blush);
+  display:block; width:100%; height:100%;
+  position:relative;
+}
+.recuerdo-mosaico img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform 0.4s ease; }
+.recuerdo-mosaico button:hover img{ transform: scale(1.06); }
+.recuerdo-mosaico button:first-child{ grid-column: span 2; grid-row: span 2; }
+.recuerdo-mosaico .recuerdo-mas{
+  position:absolute; inset:0;
+  background: rgba(12,12,12,0.55);
+  color:#fff; display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-label); font-weight:700; font-size:1.1rem;
+}
+
+@media (max-width: 620px){
+  .recuerdo-mosaico{ grid-template-columns: repeat(3, 1fr); grid-auto-rows: 84px; }
+  .recuerdo-mosaico button:first-child{ grid-column: span 3; grid-row: span 2; }
+}
+
+/* lightbox simple para ver fotos de recuerdos en grande */
+.recuerdo-lightbox{
+  display:none;
+  position:fixed; inset:0; z-index:200;
+  background: rgba(5,5,5,0.9);
+  align-items:center; justify-content:center;
+  padding: 2rem;
+}
+.recuerdo-lightbox.active{ display:flex; }
+.recuerdo-lightbox img{ max-width:min(90vw, 900px); max-height:85vh; border-radius:14px; object-fit:contain; }
+.recuerdo-lightbox-close{
+  position:absolute; top:1.5rem; right:1.5rem;
+  width:44px; height:44px; border-radius:50%;
+  background: rgba(255,255,255,0.15); color:#fff; border:none;
+  font-size:1.3rem; cursor:pointer;
+}
+.recuerdo-lightbox-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:48px; height:48px; border-radius:50%;
+  background: rgba(255,255,255,0.15); color:#fff; border:none;
+  font-size:1.4rem; cursor:pointer;
+}
+.recuerdo-lightbox-nav.prev{ left:1.2rem; }
+.recuerdo-lightbox-nav.next{ right:1.2rem; }
+
 /* ================= PROMO EVENTO (video) ================= */
 .evento-promo{
   padding: 4.5rem 1.5rem;
@@ -1004,6 +1108,7 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
       <li><a href="soluciones.html">Soluciones</a></li>
       <li><a href="#Instagram">Instagram</a></li>
       <li><a href="eventos.html">Eventos</a></li>
+      <li><a href="recuerdos.html">Recuerdos</a></li>
     </ul>
   </nav>
 </header>
@@ -1168,6 +1273,15 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
       </div>
     </div>
 
+  </section>
+
+  <!-- Recuerdos del mes: collages de fotos de eventos recientes (subidos desde el admin). Se oculta sola si no hay recuerdos de este mes/año, y al terminar el mes, migran a recuerdos.html -->
+  <section id="RecuerdosMes" style="display:none;">
+    <div class="eventos-head">
+      <span class="eyebrow">Galería estudiantil</span>
+      <h2>Recuerdos de este mes</h2>
+    </div>
+    <div id="recuerdos-mes-lista"></div>
   </section>
 
   <!-- Video -->
@@ -1534,6 +1648,15 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
   </div>
 </div>
 
+
+<!-- Lightbox: ver en grande las fotos de los collages de recuerdos -->
+<div class="recuerdo-lightbox" id="recuerdoLightbox">
+  <button class="recuerdo-lightbox-close" id="recuerdoLightboxClose" aria-label="Cerrar">&times;</button>
+  <button class="recuerdo-lightbox-nav prev" id="recuerdoLightboxPrev" aria-label="Anterior">&#10094;</button>
+  <img id="recuerdoLightboxImg" src="" alt="">
+  <button class="recuerdo-lightbox-nav next" id="recuerdoLightboxNext" aria-label="Siguiente">&#10095;</button>
+</div>
+
 <footer>
   <p>Gracias por tu interés. 🤍</p>
   <p>Síguenos en nuestras redes y participa en los eventos</p>
@@ -1649,6 +1772,117 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
     seccion.style.display = hayBloqueActivo ? '' : 'none';
   })();
 
+  // ================= RECUERDOS DEL MES =================
+  // Muestra en el inicio los collages de eventos (subidos desde el admin)
+  // cuyo mes y año coinciden con el mes/año actual. Cuando el mes cambia,
+  // esta sección se oculta sola; esos mismos recuerdos siguen visibles
+  // permanentemente en recuerdos.html, organizados por mes y año.
+  let recuerdosMesData = []; // fotos aplanadas para el lightbox: {url, index dentro del album}
+  let recuerdoLightboxIndex = 0;
+  let recuerdoLightboxFotos = [];
+
+  function construirMosaico(fotos, maxVisibles = 5) {
+    const wrap = document.createElement('div');
+    wrap.className = 'recuerdo-mosaico';
+    const visibles = fotos.slice(0, maxVisibles);
+    visibles.forEach((url, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const esUltimaConMas = i === maxVisibles - 1 && fotos.length > maxVisibles;
+      btn.innerHTML = `<img src="${url}" alt="Foto del evento" loading="lazy">${esUltimaConMas ? `<span class="recuerdo-mas">+${fotos.length - maxVisibles}</span>` : ''}`;
+      btn.addEventListener('click', () => abrirRecuerdoLightbox(fotos, i));
+      wrap.appendChild(btn);
+    });
+    return wrap;
+  }
+
+  function construirTarjetaRecuerdo(rec) {
+    const card = document.createElement('div');
+    card.className = 'recuerdo-card';
+    card.dataset.month = rec.mes;
+    const fecha = rec.fecha ? new Date(rec.fecha + 'T00:00:00') : null;
+    const fechaTexto = fecha ? fecha.toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    card.innerHTML = `
+      <div class="recuerdo-head">
+        <span class="eyebrow">${escapeHtmlIndex(rec.tituloMes || '')}</span>
+        <span class="recuerdo-fecha">${fechaTexto}</span>
+        <h3>${escapeHtmlIndex(rec.titulo || '')}</h3>
+      </div>
+    `;
+    card.appendChild(construirMosaico(rec.fotos || []));
+    return card;
+  }
+
+  function escapeHtmlIndex(str) {
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+
+  function cargarRecuerdosDelMes() {
+    const seccion = document.getElementById('RecuerdosMes');
+    const lista = document.getElementById('recuerdos-mes-lista');
+    if (!seccion || !lista) return;
+
+    const ahora = new Date();
+    const mesActual = ahora.getMonth() + 1;
+    const anioActual = ahora.getFullYear();
+
+    db.collection('recuerdos')
+      .where('mes', '==', mesActual)
+      .where('anio', '==', anioActual)
+      .orderBy('fecha', 'desc')
+      .get()
+      .then(snap => {
+        if (snap.empty) {
+          seccion.style.display = 'none';
+          return;
+        }
+        lista.innerHTML = '';
+        snap.forEach(doc => {
+          const rec = doc.data();
+          if (!rec.fotos || rec.fotos.length === 0) return;
+          rec.tituloMes = new Date(anioActual, mesActual - 1, 1).toLocaleDateString('es-MX', { month: 'long' });
+          lista.appendChild(construirTarjetaRecuerdo(rec));
+        });
+        seccion.style.display = lista.children.length ? '' : 'none';
+      })
+      .catch(err => {
+        console.error(err);
+        seccion.style.display = 'none';
+      });
+  }
+  cargarRecuerdosDelMes();
+
+  // ---------- Lightbox de recuerdos ----------
+  const recuerdoLightbox = document.getElementById('recuerdoLightbox');
+  const recuerdoLightboxImg = document.getElementById('recuerdoLightboxImg');
+
+  function abrirRecuerdoLightbox(fotos, index) {
+    recuerdoLightboxFotos = fotos;
+    recuerdoLightboxIndex = index;
+    recuerdoLightboxImg.src = fotos[index];
+    recuerdoLightbox.classList.add('active');
+  }
+  function cerrarRecuerdoLightbox() {
+    recuerdoLightbox.classList.remove('active');
+  }
+  function moverRecuerdoLightbox(delta) {
+    if (!recuerdoLightboxFotos.length) return;
+    recuerdoLightboxIndex = (recuerdoLightboxIndex + delta + recuerdoLightboxFotos.length) % recuerdoLightboxFotos.length;
+    recuerdoLightboxImg.src = recuerdoLightboxFotos[recuerdoLightboxIndex];
+  }
+  document.getElementById('recuerdoLightboxClose').addEventListener('click', cerrarRecuerdoLightbox);
+  document.getElementById('recuerdoLightboxPrev').addEventListener('click', () => moverRecuerdoLightbox(-1));
+  document.getElementById('recuerdoLightboxNext').addEventListener('click', () => moverRecuerdoLightbox(1));
+  recuerdoLightbox.addEventListener('click', (e) => { if (e.target === recuerdoLightbox) cerrarRecuerdoLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    if (!recuerdoLightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') cerrarRecuerdoLightbox();
+    if (e.key === 'ArrowLeft') moverRecuerdoLightbox(-1);
+    if (e.key === 'ArrowRight') moverRecuerdoLightbox(1);
+  });
+
   const poderosasTrack = document.getElementById('poderosasTrack');
 
   // modal: foto grande + texto abajo al hacer clic en una tarjeta
@@ -1740,9 +1974,6 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
     spotlightAvatarsRow.addEventListener('mouseleave', startSpotlightAutoplay);
   }
 
-  // Evita que la página "salte" cuando la cita seleccionada (ej. David Miliband)
-  // es más larga que las demás: medimos la altura de cada cita posible y
-  // fijamos esa altura máxima como min-height del bloque de texto.
   const spotlightTextEl = document.querySelector('.spotlight-text');
 
   function calcSpotlightMinHeight() {
