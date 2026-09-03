@@ -474,7 +474,11 @@ const progressWrap = document.getElementById('progress-wrap');
 const progressFill = document.getElementById('progress-fill');
 const progressLabel = document.getElementById('progress-label');
 
-function subirArchivo(file, carpeta) {
+function subirArchivo(file, carpeta, barraProgreso) {
+  const wrap = barraProgreso ? barraProgreso.wrap : progressWrap;
+  const fill = barraProgreso ? barraProgreso.fill : progressFill;
+  const label = barraProgreso ? barraProgreso.label : progressLabel;
+
   return new Promise((resolve, reject) => {
     if (!CLOUDINARY_CLOUD_NAME || CLOUDINARY_CLOUD_NAME === "TU_CLOUD_NAME") {
       reject(new Error("Falta configurar cloudinary-config.js"));
@@ -488,12 +492,12 @@ function subirArchivo(file, carpeta) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`);
 
-    progressWrap.classList.add('show');
+    if (wrap) wrap.classList.add('show');
     xhr.upload.addEventListener('progress', (e) => {
       if (!e.lengthComputable) return;
       const pct = Math.round((e.loaded / e.total) * 100);
-      progressFill.style.width = pct + '%';
-      progressLabel.textContent = `Subiendo archivo... ${pct}%`;
+      if (fill) fill.style.width = pct + '%';
+      if (label) label.textContent = `Subiendo archivo... ${pct}%`;
     });
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -735,7 +739,11 @@ recuerdoForm.addEventListener('submit', async (e) => {
       recuerdoProgressWrap.classList.add('show');
       let subidas = 0;
       urlsNuevas = await Promise.all(archivosNuevos.map(async (file) => {
-        const url = await subirArchivo(file, `heforshe-recuerdos/${id}`);
+        const url = await subirArchivo(
+          file,
+          `heforshe-recuerdos/${id}`,
+          { wrap: recuerdoProgressWrap, fill: recuerdoProgressFill, label: recuerdoProgressLabel }
+        );
         subidas++;
         recuerdoProgressFill.style.width = Math.round((subidas / archivosNuevos.length) * 100) + '%';
         recuerdoProgressLabel.textContent = `Subiendo fotos... ${subidas}/${archivosNuevos.length}`;
@@ -848,7 +856,7 @@ async function cargarRecuerdoEnFormulario(id) {
   recuerdoFormTitle.textContent = 'Editar recuerdo';
   recuerdoSubmitBtn.textContent = 'Actualizar recuerdo';
   recuerdoCancelBtn.style.display = 'inline-block';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  recuerdoForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 async function eliminarRecuerdo(id) {
