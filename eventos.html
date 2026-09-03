@@ -9,6 +9,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
+/* ============================================================
+   HeForShe · sistema de diseño
+   Paleta: rosa magenta + violeta (fiel a la marca original)
+   Tipografía: Fraunces (display) + Inter (texto) + Space Grotesk (etiquetas)
+   Firma visual: anillos entrelazados (unión He + She)
+============================================================ */
 
 :root{
   --ink:#141414;
@@ -826,8 +832,8 @@ footer p:last-child{ opacity:0.85; font-size:0.9rem; }
     <p class="eventos-cargando">Cargando eventos...</p>
   </div>
 
-  <!-- COMING SOON -->
-  <div class="eventos-soon-container">
+  <!-- COMING SOON: solo se muestra cuando NO hay eventos próximos -->
+  <div class="eventos-soon-container" id="eventos-soon-container" style="display:none;">
     <div class="coming-soon-card">
       <img src="img/Proximamente.png" alt="Eventos próximamente">
       <h3>COMING SOON...</h3>
@@ -914,6 +920,8 @@ function activarToggles(contenedor) {
 function cargarEventosPublicos() {
   const listaEl = document.getElementById('eventos-lista');
   const pasadosEl = document.querySelector('#eventos-pasados .eventos-pasados-lista');
+  const soonContainer = document.getElementById('eventos-soon-container');
+  const comingSoon = document.querySelector('.coming-soon-card');
 
   db.collection('eventos').orderBy('fecha', 'asc').get().then(snap => {
     listaEl.innerHTML = '';
@@ -921,6 +929,7 @@ function cargarEventosPublicos() {
 
     if (snap.empty) {
       listaEl.innerHTML = '<p class="eventos-cargando">Aún no hay eventos publicados. ¡Vuelve pronto!</p>';
+      mostrarComingSoon(true);
       return;
     }
 
@@ -936,8 +945,10 @@ function cargarEventosPublicos() {
 
     if (proximos.length === 0) {
       listaEl.innerHTML = '<p class="eventos-cargando">No hay eventos próximos por el momento.</p>';
+      mostrarComingSoon(true);
     } else {
       proximos.forEach(ev => listaEl.appendChild(construirTarjeta(ev)));
+      mostrarComingSoon(false);
     }
 
     // los pasados se muestran del más reciente al más antiguo
@@ -952,18 +963,21 @@ function cargarEventosPublicos() {
   }).catch(err => {
     console.error(err);
     listaEl.innerHTML = '<p class="eventos-cargando">No se pudieron cargar los eventos. Intenta más tarde.</p>';
+    mostrarComingSoon(true);
   });
+
+  function mostrarComingSoon(mostrar) {
+    if (!soonContainer) return;
+    soonContainer.style.display = mostrar ? 'flex' : 'none';
+    if (mostrar && comingSoon) {
+      comingSoon.classList.remove('show');
+      setTimeout(() => comingSoon.classList.add('show'), 50);
+    }
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   cargarEventosPublicos();
-
-  const comingSoon = document.querySelector(".coming-soon-card");
-  if (comingSoon) {
-    setTimeout(() => {
-      comingSoon.classList.add("show");
-    }, 300);
-  }
 });
 
 function toggleArchivados() {
