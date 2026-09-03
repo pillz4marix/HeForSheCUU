@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Recuerdos | HeForShe</title>
+<link rel="icon" href="img/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;0,900;1,400;1,500&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141414;
+  --ink-soft:#59535c;
+  --paper:#fffbfc;
+  --surface:#ffffff;
+  --blush:#ffe4ef;
+  --blush-2:#ffc9de;
+  --magenta:#ff2d76;
+  --magenta-deep:#c40a55;
+  --rose:#ff6fa0;
+  --violet-deep:#0d0d0d;
+  --line: rgba(12,12,12,0.1);
+  --shadow-soft: 0 24px 55px rgba(12,12,12,0.13);
+  --shadow-tight: 0 8px 20px rgba(12,12,12,0.09);
+  --radius-lg: 30px;
+  --radius-md: 20px;
+  --radius-sm: 12px;
+  --font-display:'Fraunces', serif;
+  --font-body:'Inter', sans-serif;
+  --font-label:'Space Grotesk', sans-serif;
+}
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--paper);
+  line-height:1.65;
+  -webkit-font-smoothing: antialiased;
+}
+h1,h2,h3{ font-family: var(--font-display); color: var(--violet-deep); }
+a{ color:inherit; }
+img{ display:block; max-width:100%; }
+:focus-visible{ outline: 3px solid var(--magenta); outline-offset: 3px; }
+
+.eyebrow{
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--magenta-deep);
+}
+
+/* ================= HEADER / NAV ================= */
+header{
+  position: sticky; top:0; z-index: 50;
+  background: rgba(255,249,251,0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+nav{
+  display:flex; justify-content:space-between; align-items:center;
+  padding: 0.9rem 2rem; max-width: 1240px; margin: 0 auto; position: relative;
+}
+.logo-container{ display:flex; align-items:center; gap:0.7rem; text-decoration:none; color:inherit; }
+.logo-img{ width: 44px; height:44px; object-fit:cover; border-radius: 50%; border: 2px solid var(--blush-2); }
+.logo-text{ font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--violet-deep); letter-spacing: 0.5px; }
+
+.nav-toggle{ display:none; background:none; border:none; cursor:pointer; width: 40px; height:40px; position:relative; z-index: 60; }
+.nav-toggle span{ position:absolute; left:8px; right:8px; height:2px; background: var(--violet-deep); border-radius:2px; transition: transform .3s ease, opacity .3s ease, top .3s ease; }
+.nav-toggle span:nth-child(1){ top:13px; }
+.nav-toggle span:nth-child(2){ top:19px; }
+.nav-toggle span:nth-child(3){ top:25px; }
+.nav-toggle.open span:nth-child(1){ top:19px; transform: rotate(45deg); }
+.nav-toggle.open span:nth-child(2){ opacity:0; }
+.nav-toggle.open span:nth-child(3){ top:19px; transform: rotate(-45deg); }
+
+.nav-links{ display:flex; list-style:none; gap: 2.2rem; font-family: var(--font-label); }
+.nav-links a{ text-decoration:none; color: var(--ink); font-weight: 600; font-size: 0.92rem; letter-spacing: 0.3px; position: relative; padding-bottom: 4px; transition: color 0.3s ease; }
+.nav-links a::after{ content:""; position:absolute; left:0; bottom:0; width:0%; height:2px; background: linear-gradient(90deg, var(--magenta), var(--orchid-light, var(--rose))); transition: width 0.3s ease; }
+.nav-links a:hover{ color: var(--magenta-deep); }
+.nav-links a:hover::after{ width:100%; }
+.nav-links a.activo{ color: var(--magenta-deep); }
+.nav-links a.activo::after{ width:100%; }
+
+@media (max-width: 880px){
+  .nav-toggle{ display:block; }
+  .nav-links{
+    position:absolute; top: 100%; left:0; right:0;
+    flex-direction:column; gap:0; background: var(--surface);
+    max-height:0; overflow:hidden; transition: max-height 0.35s ease;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-links.open{ max-height: 320px; }
+  .nav-links li{ width:100%; }
+  .nav-links a{ display:block; padding: 0.9rem 2rem; width:100%; }
+  .nav-links a::after{ display:none; }
+}
+
+/* ================= ENCABEZADO DE PÁGINA ================= */
+.recuerdos-head{
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 1rem;
+}
+.recuerdos-head h1{
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  margin-top: 0.6rem;
+}
+.recuerdos-head p{
+  color: var(--ink-soft);
+  margin-top: 0.8rem;
+  max-width: 60ch;
+}
+
+.recuerdos-vacio{
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 6rem;
+  color: var(--ink-soft);
+}
+
+/* ================= TEMAS MENSUALES (12 meses) ================= */
+[data-month="1"]{  --tema-accent: linear-gradient(90deg, #d4af37, #6a4fb6, #d4af37); --tema-accent-text:#9c7a1a; --tema-bg: linear-gradient(135deg, #fdf6e3, #f2effc); --tema-emoji:"✨"; }
+[data-month="2"]{  --tema-accent: linear-gradient(90deg, #ff6f91, #ff2d55); --tema-accent-text:#e0245e; --tema-bg: linear-gradient(135deg, #ffe1ea, #ffd0dd); --tema-emoji:"💗"; }
+[data-month="3"]{  --tema-accent: linear-gradient(90deg, #7c3aed, #b794f6); --tema-accent-text:#6d28d9; --tema-bg: linear-gradient(135deg, #f5f0ff, #ece1ff); --tema-emoji:"💜"; }
+[data-month="4"]{  --tema-accent: linear-gradient(90deg, #3f9142, #8bc98d); --tema-accent-text:#2f7a35; --tema-bg: linear-gradient(135deg, #eefaf0, #e3f7e6); --tema-emoji:"🌱"; }
+[data-month="5"]{  --tema-accent: linear-gradient(90deg, #ff7fae, #ffb6cf); --tema-accent-text:#d6427a; --tema-bg: linear-gradient(135deg, #fff0f5, #ffe6ef); --tema-emoji:"💐"; }
+[data-month="6"]{  --tema-accent: linear-gradient(90deg, #ff595e, #ffca3a, #8ac926, #1982c4, #6a4c93); --tema-accent-text:#6a4c93; --tema-bg: linear-gradient(135deg, #fff7f0, #f2f7ff); --tema-emoji:"🏳️‍🌈"; }
+[data-month="7"]{  --tema-accent: linear-gradient(90deg, #ffb703, #fb8500); --tema-accent-text:#c96a00; --tema-bg: linear-gradient(135deg, #fff8e6, #fff1d1); --tema-emoji:"🤝"; }
+[data-month="8"]{  --tema-accent: linear-gradient(90deg, #2f6fed, #6fa1ff); --tema-accent-text:#1f4fbd; --tema-bg: linear-gradient(135deg, #eaf2ff, #dbe9ff); --tema-emoji:"📚"; }
+[data-month="9"]{  --tema-accent: linear-gradient(90deg, #006341 33%, #ffffff 33% 66%, #ce1126 66%); --tema-accent-text:#006341; --tema-bg: linear-gradient(135deg, #eafaf0, #fff9e9 55%, #fdeceb); --tema-emoji:"🇲🇽"; }
+[data-month="10"]{ --tema-accent: linear-gradient(90deg, #ff8fb3, #e6317f); --tema-accent-text:#d81b6a; --tema-bg: linear-gradient(135deg, #fff0f6, #ffe1ee); --tema-emoji:"🎗️"; }
+[data-month="11"]{ --tema-accent: linear-gradient(90deg, #ff7a00, #ffb066); --tema-accent-text:#c65e00; --tema-bg: linear-gradient(135deg, #fff3e6, #ffe8cf); --tema-emoji:"🧡"; }
+[data-month="12"]{ --tema-accent: linear-gradient(90deg, #1e6b3a, #c81d25, #1e6b3a); --tema-accent-text:#1e6b3a; --tema-bg: linear-gradient(135deg, #fdece7, #eafaf0); --tema-emoji:"🎄"; }
+
+/* ================= GRUPO POR MES/AÑO ================= */
+.mes-grupo{
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.5rem 3.5rem;
+}
+.mes-grupo-titulo{
+  display:flex; align-items:baseline; gap:0.8rem; margin-bottom:1.4rem;
+  padding-bottom: 0.8rem; border-bottom: 2px solid var(--line);
+}
+.mes-grupo-titulo .emoji{ font-size:1.6rem; }
+.mes-grupo-titulo h2{ font-size:1.4rem; color: var(--tema-accent-text, var(--ink)); }
+
+/* ================= TARJETA DE RECUERDO (collage) ================= */
+.recuerdo-card{
+  position:relative; overflow:hidden;
+  background: var(--tema-bg, var(--surface));
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.8rem 1.8rem 2.1rem;
+  margin-bottom: 2rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.recuerdo-card:last-child{ margin-bottom:0; }
+.recuerdo-card:hover{ transform: translateY(-4px); }
+.recuerdo-card::before{ content:""; position:absolute; top:0; left:0; right:0; height:8px; background: var(--tema-accent, var(--rose)); }
+.recuerdo-card::after{
+  content: var(--tema-emoji, "");
+  position:absolute; right:-0.3rem; bottom:-1.3rem;
+  font-size:6.5rem; line-height:1; opacity:0.12; pointer-events:none;
+}
+.recuerdo-card > *{ position:relative; z-index:1; }
+
+.recuerdo-head{ display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:0.6rem; margin-bottom:1.2rem; }
+.recuerdo-head h3{ font-size:1.35rem; width:100%; margin-top:0.2rem; }
+.recuerdo-head .recuerdo-fecha{ font-family: var(--font-label); font-size:0.8rem; color: var(--ink-soft); }
+
+.recuerdo-mosaico{ display:grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 130px; gap: 0.5rem; }
+.recuerdo-mosaico button{
+  border:none; padding:0; margin:0; cursor:pointer;
+  border-radius: 12px; overflow:hidden; background: var(--blush);
+  display:block; width:100%; height:100%; position:relative;
+}
+.recuerdo-mosaico img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform 0.4s ease; }
+.recuerdo-mosaico button:hover img{ transform: scale(1.06); }
+.recuerdo-mosaico button:first-child{ grid-column: span 2; grid-row: span 2; }
+.recuerdo-mosaico .recuerdo-mas{
+  position:absolute; inset:0; background: rgba(12,12,12,0.55); color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--font-label); font-weight:700; font-size:1.1rem;
+}
+
+@media (max-width: 620px){
+  .recuerdo-mosaico{ grid-template-columns: repeat(3, 1fr); grid-auto-rows: 92px; }
+  .recuerdo-mosaico button:first-child{ grid-column: span 3; grid-row: span 2; }
+}
+
+/* ================= LIGHTBOX ================= */
+.recuerdo-lightbox{ display:none; position:fixed; inset:0; z-index:200; background: rgba(5,5,5,0.9); align-items:center; justify-content:center; padding: 2rem; }
+.recuerdo-lightbox.active{ display:flex; }
+.recuerdo-lightbox img{ max-width:min(90vw, 900px); max-height:85vh; border-radius:14px; object-fit:contain; }
+.recuerdo-lightbox-close{ position:absolute; top:1.5rem; right:1.5rem; width:44px; height:44px; border-radius:50%; background: rgba(255,255,255,0.15); color:#fff; border:none; font-size:1.3rem; cursor:pointer; }
+.recuerdo-lightbox-nav{ position:absolute; top:50%; transform:translateY(-50%); width:48px; height:48px; border-radius:50%; background: rgba(255,255,255,0.15); color:#fff; border:none; font-size:1.4rem; cursor:pointer; }
+.recuerdo-lightbox-nav.prev{ left:1.2rem; }
+.recuerdo-lightbox-nav.next{ right:1.2rem; }
+
+footer{ text-align:center; padding: 3rem 1.5rem 3.5rem; color: var(--ink-soft); font-size:0.9rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <a href="./" class="logo-container">
+      <img src="img/heforshe-logo-united-nations-headquarters-gender-equality-un-women-emma-watson.jpg" alt="Logo HeForShe" class="logo-img">
+      <span class="logo-text">HeForShe</span>
+    </a>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    <ul class="nav-links">
+      <li><a href="./">Inicio</a></li>
+      <li><a href="./#Nosotros">Sobre nosotros</a></li>
+      <li><a href="./#Instagram">Instagram</a></li>
+      <li><a href="eventos.html">Eventos</a></li>
+      <li><a href="recuerdos.html" class="activo">Recuerdos</a></li>
+    </ul>
+  </nav>
+</header>
+
+<div class="recuerdos-head">
+  <span class="eyebrow">Galería estudiantil</span>
+  <h1>Recuerdos</h1>
+  <p>Las fotos de nuestros eventos, organizadas por mes y año. Cada collage es un pedacito de todo lo que hemos construido juntas y juntos.</p>
+</div>
+
+<div id="recuerdos-contenedor"></div>
+<p class="recuerdos-vacio" id="recuerdos-vacio" style="display:none;">Aún no hay recuerdos publicados. ¡Vuelve después de nuestro próximo evento!</p>
+
+<!-- Lightbox -->
+<div class="recuerdo-lightbox" id="recuerdoLightbox">
+  <button class="recuerdo-lightbox-close" id="recuerdoLightboxClose" aria-label="Cerrar">&times;</button>
+  <button class="recuerdo-lightbox-nav prev" id="recuerdoLightboxPrev" aria-label="Anterior">&#10094;</button>
+  <img id="recuerdoLightboxImg" src="" alt="">
+  <button class="recuerdo-lightbox-nav next" id="recuerdoLightboxNext" aria-label="Siguiente">&#10095;</button>
+</div>
+
+<footer>
+  <p>Gracias por tu interés. 🤍</p>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="firebase-config.js"></script>
+
+<script>
+const NOMBRES_MES = ['', 'Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+function construirMosaico(fotos, maxVisibles = 8) {
+  const wrap = document.createElement('div');
+  wrap.className = 'recuerdo-mosaico';
+  const visibles = fotos.slice(0, maxVisibles);
+  visibles.forEach((url, i) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    const esUltimaConMas = i === maxVisibles - 1 && fotos.length > maxVisibles;
+    btn.innerHTML = `<img src="${url}" alt="Foto del evento" loading="lazy">${esUltimaConMas ? `<span class="recuerdo-mas">+${fotos.length - maxVisibles}</span>` : ''}`;
+    btn.addEventListener('click', () => abrirRecuerdoLightbox(fotos, i));
+    wrap.appendChild(btn);
+  });
+  return wrap;
+}
+
+function construirTarjetaRecuerdo(rec) {
+  const card = document.createElement('div');
+  card.className = 'recuerdo-card';
+  const fecha = rec.fecha ? new Date(rec.fecha + 'T00:00:00') : null;
+  const fechaTexto = fecha ? fecha.toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+  card.innerHTML = `
+    <div class="recuerdo-head">
+      <h3>${escapeHtml(rec.titulo || '')}</h3>
+      <span class="recuerdo-fecha">${fechaTexto}</span>
+    </div>
+  `;
+  card.appendChild(construirMosaico(rec.fotos || []));
+  return card;
+}
+
+function cargarRecuerdos() {
+  const contenedor = document.getElementById('recuerdos-contenedor');
+  const vacioEl = document.getElementById('recuerdos-vacio');
+
+  db.collection('recuerdos').orderBy('fecha', 'desc').get().then(snap => {
+    if (snap.empty) {
+      vacioEl.style.display = 'block';
+      return;
+    }
+
+    // agrupar por año + mes, preservando el orden (ya viene de más reciente a más antiguo)
+    const grupos = [];
+    const indicePorClave = {};
+    snap.forEach(doc => {
+      const rec = doc.data();
+      if (!rec.fotos || rec.fotos.length === 0) return;
+      const clave = `${rec.anio}-${rec.mes}`;
+      if (!(clave in indicePorClave)) {
+        indicePorClave[clave] = grupos.length;
+        grupos.push({ anio: rec.anio, mes: rec.mes, recuerdos: [] });
+      }
+      grupos[indicePorClave[clave]].recuerdos.push(rec);
+    });
+
+    if (grupos.length === 0) {
+      vacioEl.style.display = 'block';
+      return;
+    }
+
+    grupos.forEach(grupo => {
+      const seccion = document.createElement('section');
+      seccion.className = 'mes-grupo';
+      seccion.dataset.month = grupo.mes;
+
+      const titulo = document.createElement('div');
+      titulo.className = 'mes-grupo-titulo';
+      titulo.innerHTML = `<span class="emoji">${getComputedStyle(seccion).getPropertyValue('--tema-emoji').replace(/"/g, '').trim()}</span><h2>${NOMBRES_MES[grupo.mes]} ${grupo.anio}</h2>`;
+      seccion.appendChild(titulo);
+
+      grupo.recuerdos.forEach(rec => seccion.appendChild(construirTarjetaRecuerdo(rec)));
+      contenedor.appendChild(seccion);
+    });
+  }).catch(err => {
+    console.error(err);
+    vacioEl.textContent = 'No se pudieron cargar los recuerdos. Intenta más tarde.';
+    vacioEl.style.display = 'block';
+  });
+}
+document.addEventListener('DOMContentLoaded', cargarRecuerdos);
+
+// ---------- Lightbox ----------
+let recuerdoLightboxIndex = 0;
+let recuerdoLightboxFotos = [];
+const recuerdoLightbox = document.getElementById('recuerdoLightbox');
+const recuerdoLightboxImg = document.getElementById('recuerdoLightboxImg');
+
+function abrirRecuerdoLightbox(fotos, index) {
+  recuerdoLightboxFotos = fotos;
+  recuerdoLightboxIndex = index;
+  recuerdoLightboxImg.src = fotos[index];
+  recuerdoLightbox.classList.add('active');
+}
+function cerrarRecuerdoLightbox() { recuerdoLightbox.classList.remove('active'); }
+function moverRecuerdoLightbox(delta) {
+  if (!recuerdoLightboxFotos.length) return;
+  recuerdoLightboxIndex = (recuerdoLightboxIndex + delta + recuerdoLightboxFotos.length) % recuerdoLightboxFotos.length;
+  recuerdoLightboxImg.src = recuerdoLightboxFotos[recuerdoLightboxIndex];
+}
+document.getElementById('recuerdoLightboxClose').addEventListener('click', cerrarRecuerdoLightbox);
+document.getElementById('recuerdoLightboxPrev').addEventListener('click', () => moverRecuerdoLightbox(-1));
+document.getElementById('recuerdoLightboxNext').addEventListener('click', () => moverRecuerdoLightbox(1));
+recuerdoLightbox.addEventListener('click', (e) => { if (e.target === recuerdoLightbox) cerrarRecuerdoLightbox(); });
+document.addEventListener('keydown', (e) => {
+  if (!recuerdoLightbox.classList.contains('active')) return;
+  if (e.key === 'Escape') cerrarRecuerdoLightbox();
+  if (e.key === 'ArrowLeft') moverRecuerdoLightbox(-1);
+  if (e.key === 'ArrowRight') moverRecuerdoLightbox(1);
+});
+
+// ---------- Menú móvil ----------
+const navToggle = document.querySelector('.nav-toggle');
+const navLinks = document.querySelector('.nav-links');
+navToggle.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('open');
+  navToggle.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', isOpen);
+});
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navLinks.classList.remove('open');
+  navToggle.classList.remove('open');
+}));
+</script>
+
+</body>
+</html>
